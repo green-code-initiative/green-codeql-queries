@@ -1,0 +1,8 @@
+| ManualArrayCopy.java:7:9:7:44 | for (...;...;...) | Use System.arraycopy to copy arrays instead of a manual loop. |
+| ManualArrayCopy.java:12:9:12:30 | while (...) | Use System.arraycopy to copy arrays instead of a manual loop. |
+| ManualArrayCopy.java:18:9:18:29 | for (... : ...) | Use System.arraycopy to copy arrays instead of a manual loop. |
+| ManualArrayCopy.java:23:13:23:48 | for (...;...;...) | Use System.arraycopy to copy arrays instead of a manual loop. |
+| ManualArrayCopy.kt:9:9:11:9 | for (... : ...) | Use System.arraycopy to copy arrays instead of a manual loop. |
+| ManualArrayCopy.kt:15:9:18:9 | while (...) | Use System.arraycopy to copy arrays instead of a manual loop. |
+| ManualArrayCopy.kt:22:9:24:9 | for (... : ...) | Use System.arraycopy to copy arrays instead of a manual loop. |
+| ManualArrayCopy.kt:28:13:30:13 | for (... : ...) | Use System.arraycopy to copy arrays instead of a manual loop. |
