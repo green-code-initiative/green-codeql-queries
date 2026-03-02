@@ -1,0 +1,7 @@
+---
+library: false
+name: green-code-initiative/actions-queries
+version: 1.0.10
+groups: yaml
+dependencies:
+  codeql/actions-all: "*"

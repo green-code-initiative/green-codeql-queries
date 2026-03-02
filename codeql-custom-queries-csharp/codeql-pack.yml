@@ -1,0 +1,8 @@
+---
+library: false
+name: green-code-initiative/csharp-queries
+version: 1.0.2
+extractor: csharp
+groups: csharp
+dependencies:
+  codeql/csharp-all: ^5.4.7

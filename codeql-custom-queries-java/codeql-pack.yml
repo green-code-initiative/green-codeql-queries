@@ -1,0 +1,8 @@
+---
+library: false
+name: green-code-initiative/java-queries
+version: 1.0.21
+extractor: java
+groups: java
+dependencies:
+  codeql/java-all: ^7.8.4
