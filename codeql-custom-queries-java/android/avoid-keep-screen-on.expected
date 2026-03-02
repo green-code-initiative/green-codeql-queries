@@ -1,0 +1,2 @@
+| AvoidKeepScreenOn.java:5:9:5:58 | AvoidKeepScreenOn.java:5:9:5:58 | The screen is kept on via FLAG_KEEP_SCREEN_ON in code. |
+| AvoidKeepScreenOn.java:11:17:11:62 | AvoidKeepScreenOn.java:11:17:11:62 | The screen is kept on via FLAG_KEEP_SCREEN_ON in code. |
