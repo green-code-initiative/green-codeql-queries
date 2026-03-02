@@ -1,0 +1,4 @@
+| Unnecessary_TreeMap_or_LinkedHashMap_usage.java:10:39:10:53 | new TreeMap<String,String>(...) | Warning: you may use a HashMap instead of TreeMap<String,String> |
+| Unnecessary_TreeMap_or_LinkedHashMap_usage.java:15:45:15:65 | new LinkedHashMap<String,String>(...) | Warning: you may use a HashMap instead of LinkedHashMap<String,String> |
+| Unnecessary_TreeMap_or_LinkedHashMap_usage.java:25:47:25:85 | new TreeMap<String,String>(...) | Warning: you may use a HashMap instead of TreeMap<String,String> |
+| Unnecessary_TreeMap_or_LinkedHashMap_usage.java:30:52:30:87 | new LinkedHashMap<String,String>(...) | Warning: you may use a HashMap instead of LinkedHashMap<String,String> |
