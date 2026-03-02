@@ -1,0 +1,2 @@
+| avoid-nested-matrix.yml:7:5:26:2 | Job: build | Job 'build' contains a nested matrix. Nested matrices multiply job combinations exponentially, increasing CI/CD resource consumption and energy usage. Flatten the matrix or reduce the number of dimensions. |
+| avoid-nested-matrix.yml:27:5:44:52 | Job: test | Job 'test' contains a nested matrix. Nested matrices multiply job combinations exponentially, increasing CI/CD resource consumption and energy usage. Flatten the matrix or reduce the number of dimensions. |
