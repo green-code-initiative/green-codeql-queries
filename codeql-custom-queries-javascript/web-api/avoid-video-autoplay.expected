@@ -1,0 +1,4 @@
+| avoid-video-autoplay.js:8:13:11:20 | <video  ... /video> | Avoid 'autoPlay' or 'preload="auto/metadata"' on video elements. Use 'preload="none"' to reduce energy consumption and unnecessary data usage. |
+| avoid-video-autoplay.js:17:13:20:20 | <video  ... /video> | Avoid 'autoPlay' or 'preload="auto/metadata"' on video elements. Use 'preload="none"' to reduce energy consumption and unnecessary data usage. |
+| avoid-video-autoplay.js:26:13:29:20 | <video  ... /video> | Avoid 'autoPlay' or 'preload="auto/metadata"' on video elements. Use 'preload="none"' to reduce energy consumption and unnecessary data usage. |
+| avoid-video-autoplay.js:44:13:47:20 | <audio  ... /audio> | Avoid 'autoPlay' or 'preload="auto/metadata"' on audio elements. Use 'preload="none"' to reduce energy consumption and unnecessary data usage. |
