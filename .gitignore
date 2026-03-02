@@ -1,0 +1,4 @@
+.vscode
+.codeql
+*.testproj
+*.class
