@@ -3,7 +3,6 @@
 > Edit Code of conduct to add the mean of contact in case of problem.
 
 # Green Code Scan Rules
-issue build mode none dosent work for kotlin: https://docs.github.com/en/code-security/reference/code-scanning/troubleshoot-analysis-errors/kotlin-detected-in-no-build
 
 ---
 Java/Kotlin :
