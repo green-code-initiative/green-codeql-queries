@@ -1,0 +1,7 @@
+| AvoidAndroidSdkLocation.kt:13:5:13:54 | manager | Avoid using 'LocationManager' from the Android SDK. Use the fused location provider from 'com.google.android.gms.location' instead to reduce battery consumption. |
+| AvoidAndroidSdkLocation.kt:14:5:14:54 | listener | Avoid using 'LocationListener' from the Android SDK. Use the fused location provider from 'com.google.android.gms.location' instead to reduce battery consumption. |
+| AvoidAndroidSdkLocation.kt:15:5:15:54 | request | Avoid using 'LocationRequest' from the Android SDK. Use the fused location provider from 'com.google.android.gms.location' instead to reduce battery consumption. |
+| AvoidAndroidSdkLocation.kt:16:5:16:54 | criteria | Avoid using 'Criteria' from the Android SDK. Use the fused location provider from 'com.google.android.gms.location' instead to reduce battery consumption. |
+| AvoidAndroidSdkLocation.kt:17:5:17:54 | gpsStatus | Avoid using 'GpsStatus' from the Android SDK. Use the fused location provider from 'com.google.android.gms.location' instead to reduce battery consumption. |
+| AvoidAndroidSdkLocation.kt:20:13:20:15 | LocationManager mgr | Avoid using 'LocationManager' from the Android SDK. Use the fused location provider from 'com.google.android.gms.location' instead to reduce battery consumption. |
+| AvoidAndroidSdkLocation.kt:21:13:21:16 | Criteria crit | Avoid using 'Criteria' from the Android SDK. Use the fused location provider from 'com.google.android.gms.location' instead to reduce battery consumption. |

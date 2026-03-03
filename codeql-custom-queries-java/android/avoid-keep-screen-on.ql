@@ -3,7 +3,7 @@
  * @description Identifies usage of FLAG_KEEP_SCREEN_ON in code or android:keepScreenOn in XML layouts.
  * @kind problem
  * @problem.severity recommendation
- * @id java/avoid-keep-screen-on
+ * @id java/android/avoid-keep-screen-on
  * @tags android
  */
 

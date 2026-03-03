@@ -4,7 +4,7 @@
  * @kind problem
  * @problem.severity recommendation
  * @precision high
- * @id java/manual-array-copy
+ * @id java/lang/manual-array-copy
  * @tags lang
  */
 
