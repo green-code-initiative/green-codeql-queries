@@ -8,7 +8,7 @@ class FusedLocationProviderClient
 class LocationCallback
 
 // 🚫 Noncompliant - using Android SDK location classes
-class NoncompliantExample {
+class NoncompliantLocation {
 
     val manager: LocationManager? = null    // $ Alert
     val listener: LocationListener? = null  // $ Alert
@@ -23,7 +23,7 @@ class NoncompliantExample {
 }
 
 // ✅ Compliant - using fused location provider
-class CompliantExample {
+class CompliantLocation {
 
     val fusedClient: FusedLocationProviderClient? = null  // OK
     val callback: LocationCallback? = null                // OK

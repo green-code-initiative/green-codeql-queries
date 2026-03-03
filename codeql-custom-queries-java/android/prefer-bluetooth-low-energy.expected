@@ -1,0 +1,5 @@
+| prefer-bluetooth-low-energy.kt:18:5:18:57 | adapter | Avoid classic Bluetooth ('BluetoothAdapter'). Use Bluetooth Low Energy APIs from android.bluetooth.le instead to significantly reduce power consumption. |
+| prefer-bluetooth-low-energy.kt:19:5:19:57 | device | Avoid classic Bluetooth ('BluetoothDevice'). Use Bluetooth Low Energy APIs from android.bluetooth.le instead to significantly reduce power consumption. |
+| prefer-bluetooth-low-energy.kt:20:5:20:57 | socket | Avoid classic Bluetooth ('BluetoothSocket'). Use Bluetooth Low Energy APIs from android.bluetooth.le instead to significantly reduce power consumption. |
+| prefer-bluetooth-low-energy.kt:23:13:23:24 | BluetoothServerSocket serverSocket | Avoid classic Bluetooth ('BluetoothServerSocket'). Use Bluetooth Low Energy APIs from android.bluetooth.le instead to significantly reduce power consumption. |
+| prefer-bluetooth-low-energy.kt:24:13:24:19 | BluetoothProfile profile | Avoid classic Bluetooth ('BluetoothProfile'). Use Bluetooth Low Energy APIs from android.bluetooth.le instead to significantly reduce power consumption. |
