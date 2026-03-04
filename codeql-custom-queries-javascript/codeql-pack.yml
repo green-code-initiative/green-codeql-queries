@@ -1,7 +1,7 @@
 ---
 library: false
 name: green-code-initiative/javascript-queries
-version: 1.0.9
+version: 1.0.0
 extractor : javascript
 groups : javascript
 dependencies:
