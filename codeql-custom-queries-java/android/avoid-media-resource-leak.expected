@@ -1,0 +1,6 @@
+| avoid-media-resource-leak.kt:18:24:18:38 | new MediaRecorder(...) | Call release() on 'MediaRecorder' when it is no longer needed to free memory, codec instances, and avoid continuous battery consumption. |
+| avoid-media-resource-leak.kt:25:22:25:34 | new MediaPlayer(...) | Call release() on 'MediaPlayer' when it is no longer needed to free memory, codec instances, and avoid continuous battery consumption. |
+| avoid-media-resource-leak.kt:31:26:31:40 | new MediaRecorder(...) | Call release() on 'MediaRecorder' when it is no longer needed to free memory, codec instances, and avoid continuous battery consumption. |
+| avoid-media-resource-leak.kt:32:24:32:36 | new MediaPlayer(...) | Call release() on 'MediaPlayer' when it is no longer needed to free memory, codec instances, and avoid continuous battery consumption. |
+| avoid-media-resource-leak.kt:39:24:39:38 | new MediaRecorder(...) | Call release() on 'MediaRecorder' when it is no longer needed to free memory, codec instances, and avoid continuous battery consumption. |
+| avoid-media-resource-leak.kt:46:22:46:34 | new MediaPlayer(...) | Call release() on 'MediaPlayer' when it is no longer needed to free memory, codec instances, and avoid continuous battery consumption. |
