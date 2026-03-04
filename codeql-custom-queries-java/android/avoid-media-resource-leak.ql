@@ -5,6 +5,8 @@
  * @problem.severity warning
  * @precision medium
  * @id java/android/avoid-media-resource-leak
+ * @link https://green-code-initiative.org/rules#id:GCI515
+ * @link https://green-code-initiative.org/rules#id:GCI516
  * @tags android
  */
 
