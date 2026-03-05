@@ -2,6 +2,7 @@
 library: false
 name: green-code-initiative/actions-queries
 version: 1.0.0
+extractor: actions
 groups: yaml
 dependencies:
   codeql/actions-all: "*"

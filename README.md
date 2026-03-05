@@ -85,15 +85,11 @@ You want to run only the queries in a querie suite (.qls)
 To use copy this code into a Github Action. Precise which language (java by default).
 
 ```yaml
-name: "CodeQL Analysis"
+name: "Green CodeQL Analysis"
 env:
   TARGET_LANGUAGE: "java"
 on:
   workflow_dispatch: 
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
 jobs:
   analyze:
     name: Analyze
@@ -109,24 +105,12 @@ jobs:
       uses: github/codeql-action/init@v4
       with:
         languages: ${{ env.TARGET_LANGUAGE }}
-        #queries: ./qlpack/queries-suite.qls
         build-mode: none
-        packs: titouancharrier/cql-green-queries-${{ env.TARGET_LANGUAGE }}
+        packs: green-code-initiative/${{ env.TARGET_LANGUAGE }}-queries
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v4
       with:
-        category: "Save the polar bear"
+        category: "Sustainability"
 
 ```
 
----
-
-## Contribute
-
-If you wish to contribute refer to the [contributing file](CONTRIBUTING.md).
-
----
-
-## Licence
-
-This project is under the GPL3 Licence.
