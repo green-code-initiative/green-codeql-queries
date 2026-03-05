@@ -4,6 +4,8 @@
  * @kind problem
  * @problem.severity recommendation
  * @id java/android/avoid-keep-screen-on
+ * @link https://green-code-initiative.org/rules#id:GCI505
+ * @link https://green-code-initiative.org/rules#id:GCI506
  * @tags android
  */
 
@@ -13,7 +15,6 @@ import semmle.code.xml.XML
 predicate screenOnUsage(File f, string msg, Location loc) {
   exists(FieldAccess fa, Field field |
     field.hasName("FLAG_KEEP_SCREEN_ON") and
-    field.getDeclaringType().hasQualifiedName("android.view", "WindowManager$LayoutParams") and
     fa.getField() = field and
     loc = fa.getLocation() and
     f = loc.getFile() and

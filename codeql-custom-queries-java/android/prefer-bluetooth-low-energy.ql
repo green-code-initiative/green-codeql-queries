@@ -5,9 +5,8 @@
  * @problem.severity warning
  * @precision medium
  * @id java/android/prefer-bluetooth-low-energy
- * @tags efficiency
- *       sustainability
- *       GCI518
+ * @link https://green-code-initiative.org/rules#id:GCI518
+ * @tags android
  */
 
 import java

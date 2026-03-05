@@ -1,2 +1,6 @@
-| avoid-keep-screen-on.kt:6:13:6:47 | avoid-keep-screen-on.kt:6:13:6:47 | The screen is kept on via FLAG_KEEP_SCREEN_ON in code. |
-| avoid-keep-screen-on.kt:6:19:6:47 | avoid-keep-screen-on.kt:6:19:6:47 | The screen is kept on via FLAG_KEEP_SCREEN_ON in code. |
+| avoid-keep-screen-on.java:3:9:3:51 | avoid-keep-screen-on.java:3:9:3:51 | The screen is kept on via FLAG_KEEP_SCREEN_ON in code. |
+| avoid-keep-screen-on.java:11:20:11:65 | avoid-keep-screen-on.java:11:20:11:65 | The screen is kept on via FLAG_KEEP_SCREEN_ON in code. |
+| avoid-keep-screen-on.java:15:21:15:66 | avoid-keep-screen-on.java:15:21:15:66 | The screen is kept on via FLAG_KEEP_SCREEN_ON in code. |
+| avoid-keep-screen-on.java:19:22:19:67 | avoid-keep-screen-on.java:19:22:19:67 | The screen is kept on via FLAG_KEEP_SCREEN_ON in code. |
+| avoid-keep-screen-on.xml:3:1:4:33 | avoid-keep-screen-on.xml:3:1:4:33 | The screen is kept on via the 'android:keepScreenOn="true"' XML attribute. |
+| avoid-keep-screen-on.xml:7:5:9:32 | avoid-keep-screen-on.xml:7:5:9:32 | The screen is kept on via the 'android:keepScreenOn="true"' XML attribute. |
