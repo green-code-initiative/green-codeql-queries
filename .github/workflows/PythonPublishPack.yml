@@ -68,7 +68,7 @@ jobs:
           
           # 2. Récupération de la version actuelle sur le GitHub Container Registry
           OWNER="green-code-initiative"
-          PACKAGE_NAME="cql-green-queries-python"
+          PACKAGE_NAME="python-queries"
           
           RESPONSE=$(curl -s -H "Authorization: Bearer $GITHUB_TOKEN" \
             "https://api.github.com/users/$OWNER/packages/container/$PACKAGE_NAME/versions")
