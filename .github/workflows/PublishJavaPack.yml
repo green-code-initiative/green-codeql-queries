@@ -59,6 +59,8 @@ jobs:
         run: |
           export PATH="$(dirname ${{ steps.install-codeql.outputs.codeql-path }}):$PATH"
           cd codeql-custom-queries-java
+
+          git pull --rebase origin main
           
           # 1. Détection du fichier de pack
           PACK_FILE=$(ls qlpack.yml 2>/dev/null || ls codeql-pack.yml 2>/dev/null)
@@ -96,6 +98,5 @@ jobs:
           git config --local user.name "github-actions[bot]"
           git add codeql-custom-queries-actions/
           git diff --staged --quiet || git commit -m "chore: bump java pack version to match registry [skip ci]"
-          git pull --rebase origin main
           git push origin main
  
