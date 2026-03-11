@@ -42,17 +42,6 @@ The rules are put in different folders for each language. Each folder have speci
 
 ## Usage
 
-### TUI for local projects
-You can run inside your project's folder
-```
-curl --fail --remote-name --location https://raw.githubusercontent.com/TitouanCharrier/cql-green-queries/main/run_green_queries.sh
-chmod +x run_green_queries.sh
-```
-and
-
-```./run_green_queries.sh```
-
-
 ### Manual run for local projects
 #### 1) Download test pack
 Add desired pack in your codeql installation.
