@@ -10,14 +10,14 @@ Per-language directories are compliant with the CodeQL plugin for Visual Studio,
 | :--- | :--- | :--- |
 | **`lang`** | Core language syntax | “Busy-wait loop”, “Repeated regex compilation inside loop”, ... |
 | **`ai`** | Specific domains | “Unnecessary retraining”, “No batching for inference”, ... |
-| **`web` / `flask`** | Frameworks | “No pagination”, “No caching headers (ETag/Cache-Control) for static-like responses”, ... |
+| **`web` / `flask`** | Frameworks | “No pagination”, “No caching headers (ETag/Cache-Control)”, ... |
 
 > [!TIP]
-> Your query metadata must be written carefully (name/description/kind/severity/precision/tags)
+> Your query metadata must be chosen carefully (name/description/kind/severity/precision/tags)
 
 ## Unit testing of the green queries
 
-Given a sustainability general issue for Python, saying "Busy Wait Loop", put the query `busy-wait-loop.ql` and its sibling files (.py, .expected) for unit testing.
+Given a sustainability general issue for Python, saying "Busy-Wait Loop", put the query `busy-wait-loop.ql` and its sibling files (.py, .expected) for unit testing.
 ```
 /codeql-custom-queries-python
   |-- lang/
@@ -28,7 +28,7 @@ Given a sustainability general issue for Python, saying "Busy Wait Loop", put th
 
 # Merging the Pull Request
 
-Your pull request will be reviewed, and if it is accepted and merged, the rest of the process is automated. Our workflows check that the unit tests pass (run tests locally before), and if they do, your new query is added to the relevant Green CodeQL pack, and its version number is incremented.
+Your pull request will be reviewed, and if it is accepted and merged, the rest of the process is automated. Our workflows check that the unit tests pass (please run tests locally before), and if they do, your new query is added to the relevant Green CodeQL pack, and its version number is incremented.
 
 
 # Useful Documentation :
