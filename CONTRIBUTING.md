@@ -1,32 +1,34 @@
 # Submitting a Pull Request
 
-Please point all pull request to the `dev` branch. Ensure your pull request adheres to the following guidelines:
+Please point all pull request to the `dev` branch. Ensure your contribution adheres to the following quality guidelines:
 
 ## Organization of the green queries
 
-Per-langage directories are compliant with the CodeQL plugin for Visual Studio, as `codeql-custom-queries-<lang>`. Then, the recommended sub-directories should be alike the following Python language case:
+Per-language directories are compliant with the CodeQL plugin for Visual Studio, as `codeql-custom-queries-<lang>`. For better clarity, we recommend to place your query into a sub-directory, as the following example for the Python language:
 
-| Directory | Issue Type | Example CodeQL Query (non green here) |
+| Directory | Scope | Sustainability issue the query could detect |
 | :--- | :--- | :--- |
-| **`lang`** | Core language syntax | Use of `eval()`, unsafe string concatenation in SQL queries. |
-| **`ai` / `ml`** | Specific libraries | `TensorFlow` misconfigurations, unsafe `pickle.load()` usage (RCE). |
-| **`web` / `flask`** | Frameworks | Misconfigured CORS headers, Jinja2 template injection. |
+| **`lang`** | Core language syntax | “Busy-wait loop”, “Repeated regex compilation inside loop”, ... |
+| **`ai`** | Specific domains | “Unnecessary retraining”, “No batching for inference”, ... |
+| **`web` / `flask`** | Frameworks | “No pagination”, “No caching headers (ETag/Cache-Control) for static-like responses”, ... |
+
+> [!TIP]
+> Your query metadata must be written carefully (name/description/kind/severity/precision/tags)
 
 ## Unit testing of the green queries
 
-Given a sustainability issue for Python data scientists, saying "unsafe pickle", put the query `unsafe-pickle.ql` and its sibling files (.py, .expected) for unit testing.
+Given a sustainability general issue for Python, saying "Busy Wait Loop", put the query `busy-wait-loop.ql` and its sibling files (.py, .expected) for unit testing.
 ```
 /codeql-custom-queries-python
-  |-- ia/
-       |-- codeql-pack.yml
-       |-- unsafe-pickle.ql       <-- Your new querie
-       |-- unsafe-pickle.py       <-- Your test code (with/without problems)
-       |-- unsafe-pickle.expected <-- The results that CodeQL is supposed to find
+  |-- lang/
+       |-- busy-wait-loop.ql        <-- Your new query
+       |-- busy-wait-loop.py        <-- Your test code (with/without problems)
+       |-- busy-wait-loop.expected  <-- The issues that CodeQL is supposed to detect
 ```
 
 # Merging the Pull Request
 
-Your pull request is reviewed, and if it is accepted and merged, the rest of the process is automated. Our workflows check that the unit tests pass, and if they do, your new query is added to the relevant Green CodeQL pack, and its version number is incremented.
+Your pull request will be reviewed, and if it is accepted and merged, the rest of the process is automated. Our workflows check that the unit tests pass (run tests locally before), and if they do, your new query is added to the relevant Green CodeQL pack, and its version number is incremented.
 
 
 # Useful Documentation :
