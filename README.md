@@ -3,7 +3,7 @@ A first-of-its-kind repository of custom queries to scan your codebase and detec
 
 ## 🚀 How to use green queries on your GitHub
 
-To run these custom green queries on your repository, copy this code into a Github Action (for Java in the example below):
+To run these custom green queries on your repository, copy this code into a Github Action (Java code analysis in the example below):
 ```yaml
 name: "Green CodeQL Analysis"
 env:
@@ -33,7 +33,7 @@ jobs:
         category: "Sustainability"
 ```
 > [!NOTE]
-> Sustainability issues are reported as vulnerabilities in your GitHub security menu 🛡️
+> For lack of a better option, sustainability issues are reported as vulnerabilities in your GitHub security menu 🛡️
 
 
 ## 📦 Status of green queries packs

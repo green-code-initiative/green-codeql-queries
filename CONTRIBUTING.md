@@ -4,9 +4,9 @@ Please point all pull request to the `dev` branch. Ensure your pull request adhe
 
 ## Organization of the green queries
 
-Per-langage directories are compliant with the CodeQL plugin for Visual Studio, as `codeql-custom-queries-<langage>`. Then, the recommanded sub-directories are the following:
+Per-langage directories are compliant with the CodeQL plugin for Visual Studio, as `codeql-custom-queries-<lang>`. Then, the recommended sub-directories should be alike the following Python language case:
 
-| Directory | Content Type | Example CodeQL Query (non green here) |
+| Directory | Issue Type | Example CodeQL Query (non green here) |
 | :--- | :--- | :--- |
 | **`lang`** | Core language syntax | Use of `eval()`, unsafe string concatenation in SQL queries. |
 | **`ai` / `ml`** | Specific libraries | `TensorFlow` misconfigurations, unsafe `pickle.load()` usage (RCE). |
@@ -14,20 +14,19 @@ Per-langage directories are compliant with the CodeQL plugin for Visual Studio, 
 
 ## Unit testing of the green queries
 
-Given an issue for Python data scientists, saying "unsafe pickle", put the green query `unsafe-pickle.ql` and its sibling files (.py, .expected) for unit testing.
-
+Given a sustainability issue for Python data scientists, saying "unsafe pickle", put the query `unsafe-pickle.ql` and its sibling files (.py, .expected) for unit testing.
 ```
 /codeql-custom-queries-python
   |-- ia/
        |-- codeql-pack.yml
        |-- unsafe-pickle.ql       <-- Your new querie
-       |-- unsafe-pickle.py       <-- Your test code (problems)
+       |-- unsafe-pickle.py       <-- Your test code (with/without problems)
        |-- unsafe-pickle.expected <-- The results that CodeQL is supposed to find
 ```
 
 # Merging the Pull Request
 
-Your pull request is reviewed, and if it is accepted and merged, the rest of the process is automated. Our workflows check that the unit tests pass, and if they do, your green querie is packaged and the relevant Green CodeQL pack version is incremented.
+Your pull request is reviewed, and if it is accepted and merged, the rest of the process is automated. Our workflows check that the unit tests pass, and if they do, your new query is added to the relevant Green CodeQL pack, and its version number is incremented.
 
 
 # Useful Documentation :
