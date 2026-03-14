@@ -2,11 +2,8 @@ name: "Actions - Run Tests and Publish CodeQL Pack"
 
 on:
   workflow_dispatch:
-  push:
-    branches: [ "main" ]
-    paths:
-      - 'codeql-custom-queries-actions/**'
   pull_request:
+    branches: [ "dev" ]
     paths:
       - 'codeql-custom-queries-actions/**'
 
@@ -50,7 +47,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          token: ${{ secrets.PACK_PUBLISH_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Install CodeQL CLI
         id: install-codeql
@@ -58,10 +55,12 @@ jobs:
 
       - name: Increment version and publish
         env:
-          GITHUB_TOKEN: ${{ secrets.PACK_PUBLISH_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           export PATH="$(dirname ${{ steps.install-codeql.outputs.codeql-path }}):$PATH"
           cd codeql-custom-queries-actions
+
+          git pull --rebase origin main
           
           # 1. Détection du fichier de pack
           PACK_FILE=$(ls qlpack.yml 2>/dev/null || ls codeql-pack.yml 2>/dev/null)
@@ -98,4 +97,6 @@ jobs:
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git add codeql-custom-queries-actions/
-          git diff --staged --quiet || (git commit -m "chore: bump actions pack version to match registry [skip ci]" && git push origin main)
+          git diff --staged --quiet || git commit -m "chore: bump actions pack version to match registry [skip ci]"
+          git push origin main
+ 

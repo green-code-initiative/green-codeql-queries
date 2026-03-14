@@ -1,13 +1,12 @@
 name: "C# - Run Tests and Publish CodeQL Pack"
+
 on:
   workflow_dispatch:
-  push:
-    branches: [ "main" ]
-    paths:
-      - 'codeql-custom-queries-csharp/**'
   pull_request:
+    branches: [ "dev" ]
     paths:
       - 'codeql-custom-queries-csharp/**'
+
 jobs:
 
   test:
@@ -40,20 +39,25 @@ jobs:
     permissions:
       packages: write
       contents: write
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          token: ${{ secrets.PACK_PUBLISH_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Install CodeQL CLI
         id: install-codeql
         uses: github/codeql-action/setup-codeql@v4
+
       - name: Increment version and publish
         env:
-          GITHUB_TOKEN: ${{ secrets.PACK_PUBLISH_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           export PATH="$(dirname ${{ steps.install-codeql.outputs.codeql-path }}):$PATH"
           cd codeql-custom-queries-csharp
+
+          git pull --rebase origin main
           
           # 1. Détection du fichier de pack
           PACK_FILE=$(ls qlpack.yml 2>/dev/null || ls codeql-pack.yml 2>/dev/null)
@@ -67,6 +71,7 @@ jobs:
             "https://api.github.com/users/$OWNER/packages/container/$PACKAGE_NAME/versions")
           
           LATEST_VERSION=$(echo "$RESPONSE" | jq -r '.[0].metadata.container.tags[0]' 2>/dev/null)
+
           if [ "$LATEST_VERSION" == "null" ] || [ -z "$LATEST_VERSION" ]; then
             NEW_VERSION="1.0.0"
           else
@@ -83,9 +88,12 @@ jobs:
           
           echo "Publication du pack sur GitHub Packages..."
           codeql pack publish
+
       - name: Commit version update
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add codeql-custom-queries-csharp/
-          git diff --staged --quiet || (git commit -m "chore: bump csharp pack version to match registry [skip ci]" && git push origin main)
+          git add codeql-custom-queries-actions/
+          git diff --staged --quiet || git commit -m "chore: bump csharp pack version to match registry [skip ci]"
+          git push origin main
+ 
