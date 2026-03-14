@@ -1,5 +1,5 @@
 # 🍃 Green CodeQL
-A first-of-its-kind repository of custom queries to scan your codebase and detect sustainability problems, notably energy-related issues.
+A first-of-its-kind repository of custom queries to scan your codebase and detect environmental sustainability problems, notably energy-related issues.
 
 ## 🚀 How to use green queries on your GitHub
 
