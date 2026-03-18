@@ -33,7 +33,7 @@ jobs:
         category: "Sustainability"
 ```
 > [!NOTE]
-> For lack of a better option, sustainability issues are reported just as vulnerabilities in 🛡️ Security → Code scanning
+> For lack of a better option, sustainability alerts are reported just as vulnerabilities in 🛡️ Security → Code scanning
 
 
 ## 📦 Status of green queries packs

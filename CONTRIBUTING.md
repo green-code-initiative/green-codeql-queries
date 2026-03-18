@@ -4,7 +4,7 @@ Please point all pull request to the `dev` branch. Ensure your contribution adhe
 
 ## Organization of the green queries
 
-Per-language directories are compliant with the CodeQL plugin for Visual Studio, as `codeql-custom-queries-<lang>`. For better clarity, we recommend to place your query into a sub-directory, as the following example for the Python language:
+Per-language directories `codeql-custom-queries-<lang>` are compliant with the CodeQL extension for Visual Studio Code. For better clarity, we recommend to place your query into a sub-directory, as the following example targeting the Python language:
 
 | Directory | Scope | Sustainability issue the query could detect |
 | :--- | :--- | :--- |
@@ -13,7 +13,7 @@ Per-language directories are compliant with the CodeQL plugin for Visual Studio,
 | **`web` / `flask`** | Frameworks | “No pagination”, “No caching headers (ETag/Cache-Control)”, ... |
 
 > [!TIP]
-> Your query metadata must be chosen carefully (name/description/kind/severity/precision/tags)
+> Your query metadata must be chosen carefully (`@name`/`@description`/`@tags`) and even your alert message, so that *Copilot Autofix* can infer a patch. Optional file `.qhelp` is also useful.
 
 ## Unit testing of the green queries
 
