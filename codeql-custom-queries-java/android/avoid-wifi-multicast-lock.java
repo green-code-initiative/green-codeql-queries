@@ -7,7 +7,7 @@ class WifiManager {
 }
 
 // 🚫 Noncompliant - acquire without release
-class Noncompliant1 {
+class Noncompliant1WifiMulticast {
     void method1() {
         WifiManager manager = new WifiManager();
         WifiManager.MulticastLock lock = manager.new MulticastLock();
@@ -16,7 +16,7 @@ class Noncompliant1 {
 }
 
 // 🚫 Noncompliant - acquire in a separate method without release
-class Noncompliant2 {
+class Noncompliant2WifiMulticast {
     void method1() {
         acquireLock();
     }
@@ -29,7 +29,7 @@ class Noncompliant2 {
 }
 
 // 🚫 Noncompliant - acquire in a loop without release
-class Noncompliant3 {
+class Noncompliant3WifiMulticast {
     void method1() {
         WifiManager manager = new WifiManager();
         WifiManager.MulticastLock lock = manager.new MulticastLock();
@@ -40,7 +40,7 @@ class Noncompliant3 {
 }
 
 // 🚫 Noncompliant - acquire in an inner class without release
-class Noncompliant4 {
+class Noncompliant4WifiMulticast {
     void method1() {
         WifiManager manager = new WifiManager();
         WifiManager.MulticastLock lock = manager.new MulticastLock();
@@ -55,7 +55,7 @@ class Noncompliant4 {
 }
 
 // ✅ Compliant - acquire with release
-class Compliant1 {
+class Compliant1WifiMulticast {
     void method1() {
         WifiManager manager = new WifiManager();
         WifiManager.MulticastLock lock = manager.new MulticastLock();
@@ -65,7 +65,7 @@ class Compliant1 {
 }
 
 // ✅ Compliant - acquire and release in separate methods
-class Compliant2 {
+class Compliant2WifiMulticast {
     void method1() {
         acquireAndRelease();
     }
@@ -79,7 +79,7 @@ class Compliant2 {
 }
 
 // ✅ Compliant - acquire and release in a loop
-class Compliant3 {
+class Compliant3WifiMulticast {
     void method1() {
         WifiManager manager = new WifiManager();
         WifiManager.MulticastLock lock = manager.new MulticastLock();
@@ -91,7 +91,7 @@ class Compliant3 {
 }
 
 // ✅ Compliant - acquire and release in an inner class
-class Compliant4 {
+class Compliant4WifiMulticast {
     void method1() {
         WifiManager manager = new WifiManager();
         WifiManager.MulticastLock lock = manager.new MulticastLock();
