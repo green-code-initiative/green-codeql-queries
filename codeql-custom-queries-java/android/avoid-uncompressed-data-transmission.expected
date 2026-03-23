@@ -1,0 +1,3 @@
+| avoid-uncompressed-data-transmission.java:11:39:11:66 | getOutputStream(...) | Avoid using raw OutputStream for HTTP requests. Use GZIPOutputStream to compress data and reduce energy consumption. |
+| avoid-uncompressed-data-transmission.java:51:81:51:108 | getOutputStream(...) | Avoid using raw OutputStream for HTTP requests. Use GZIPOutputStream to compress data and reduce energy consumption. |
+| avoid-uncompressed-data-transmission.java:93:39:93:66 | getOutputStream(...) | Avoid using raw OutputStream for HTTP requests. Use GZIPOutputStream to compress data and reduce energy consumption. |
