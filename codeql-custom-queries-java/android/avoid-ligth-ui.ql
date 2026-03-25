@@ -9,6 +9,8 @@
  * @id java/android/avoid-ligth-ui
  * @tags android
  * @tags java
+ * 
+ * @note Test contains those for the day nigth theme detection too
  */
 
 import semmle.code.xml.XML
