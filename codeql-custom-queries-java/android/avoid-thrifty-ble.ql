@@ -1,5 +1,5 @@
 /**
- * @name Thrifty BLE
+ * @name Avoid Thrifty BLE
  * @description Bluetooth Low Energy operations should minimize battery consumption.
  *              BluetoothLeScanner#startScan() should use SCAN_MODE_LOW_POWER.
  *              BluetoothGatt#requestConnectionPriority() should use CONNECTION_PRIORITY_LOW_POWER.
@@ -8,8 +8,9 @@
  * @kind problem
  * @problem.severity warning
  * @precision high
- * @id java/android/thrifty-ble
- * @link https://green-code-initiative.org/rules#id:GCI91
+ * @id java/android/avoid-thrifty-ble
+ * @link https://green-code-initiative.org/rules#id:GCI525
+ * @link https://green-code-initiative.org/rules#id:GCI526
  * @tags android
  * @tags java
  */
