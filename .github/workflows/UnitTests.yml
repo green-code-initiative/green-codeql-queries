@@ -1,0 +1,84 @@
+name: "CodeQL Unit Tests"
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: [ "test" ]
+    paths:
+      - 'codeql-custom-queries-*/**'
+  push:
+    branches-ignore:
+      - 'main'
+    paths:
+      - 'codeql-custom-queries-*/**'
+
+jobs:
+  detect-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - id: set-matrix
+        run: |
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            echo "Mode Manuel : Recherche de tous les packs..."
+            # Liste tous les répertoires correspondant au pattern
+            DIFF=$(ls -d codeql-custom-queries-*/ 2>/dev/null | sed 's/\///g' | jq -R -s -c 'split("\n") | map(select(length > 0))')
+          else
+            echo "Mode Automatique : Détection des modifications..."
+            
+            # Détermination de la base de comparaison
+            if [ "${{ github.event_name }}" == "pull_request" ]; then
+              BASE_SHA="origin/${{ github.base_ref }}"
+            else
+              # Pour un push sur une branche, on compare avec le commit précédent
+              # Si c'est un nouveau commit, on compare avec HEAD^
+              BASE_SHA="HEAD^"
+            fi
+
+            # Extraction des noms de dossiers uniques
+            DIFF=$(git diff --name-only $BASE_SHA HEAD 2>/dev/null | grep '^codeql-custom-queries-' | cut -d/ -f1 | sort -u | jq -R -s -c 'split("\n") | map(select(length > 0))')
+          fi
+
+          # Sécurité : Si DIFF est vide, on renvoie un tableau vide pour éviter les erreurs JSON
+          if [ -z "$DIFF" ] || [ "$DIFF" == "[]" ]; then
+            echo "matrix=[]" >> $GITHUB_OUTPUT
+          else
+            echo "matrix=$DIFF" >> $GITHUB_OUTPUT
+          fi
+
+  test:
+    needs: detect-changes
+    if: ${{ needs.detect-changes.outputs.matrix != '[]' && needs.detect-changes.outputs.matrix != '' }}
+    name: Test ${{ matrix.package }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        package: ${{ fromJson(needs.detect-changes.outputs.matrix) }}
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install CodeQL CLI
+        id: install-codeql
+        uses: github/codeql-action/setup-codeql@v4
+
+      - name: Run CodeQL Tests
+        run: |
+          export PATH="$(dirname ${{ steps.install-codeql.outputs.codeql-path }}):$PATH"
+          cd ${{ matrix.package }}
+          
+          if [ -f "qlpack.yml" ] || [ -f "codeql-pack.yml" ]; then
+            echo "--- Installation des dépendances pour ${{ matrix.package }} ---"
+            codeql pack install
+            echo "--- Exécution des tests ---"
+            codeql test run . --format=text
+          else
+            echo "Warning : Aucun fichier qlpack.yml trouvé dans ${{ matrix.package }}."
+          fi
