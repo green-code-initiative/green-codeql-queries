@@ -1,5 +1,5 @@
 /**
- * @name High Frame Rate
+ * @name Avoid High Frame Rate
  * @description Calling Surface#setFrameRate() with a frameRate greater than 60f raises the
  *              display refresh rate to 90Hz or 120Hz, which increases energy consumption.
  *              A regular app should not exceed 60 frames per second to optimize battery life.
