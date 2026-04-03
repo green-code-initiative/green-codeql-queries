@@ -1,16 +1,15 @@
-name: "CodeQL Unit Tests"
+name: "Actions - Run CodeQL Unit Tests"
 
 on:
-  workflow_dispatch:
+  workflow_dispatch: # Déclenchement manuel toujours possible
   pull_request:
-    branches: [ "test" ]
+    branches:
+      - 'test' # Déclenche le workflow quand une PR cible la branche 'test'
     paths:
-      - 'codeql-custom-queries-*/**'
+      - 'codeql-custom-queries-*/**' # Uniquement si ces dossiers sont impactés
   push:
-    branches-ignore:
-      - 'main'
-    paths:
-      - 'codeql-custom-queries-*/**'
+    branches:
+      - 'test'
 
 jobs:
   detect-changes:
