@@ -12,8 +12,6 @@
 
 import java
 
-import java
-
 from RefType t, Variable v
 where
   v.getType() = t and
