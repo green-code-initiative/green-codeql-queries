@@ -54,6 +54,19 @@ class Noncompliant4WifiMulticast {
     }
 }
 
+// 🚫 Noncompliant - only multicastLock1 is acquired without release
+//                   multicastLock2 is properly acquired and released
+class Noncompliant5WifiMulticast {
+    void method1() {
+        WifiManager manager = new WifiManager();
+        WifiManager.MulticastLock multicastLock1 = manager.new MulticastLock();
+        WifiManager.MulticastLock multicastLock2 = manager.new MulticastLock();
+        multicastLock1.acquire(); // $ Alert - no matching release on this object
+        multicastLock2.acquire(); // OK - released below
+        multicastLock2.release();
+    }
+}
+
 // ✅ Compliant - acquire with release
 class Compliant1WifiMulticast {
     void method1() {
@@ -103,5 +116,18 @@ class Compliant4WifiMulticast {
             }
         };
         runnable.run();
+    }
+}
+
+// ✅ Compliant - each lock is acquired and released on the same object
+class Compliant5WifiMulticast {
+    void method1() {
+        WifiManager manager = new WifiManager();
+        WifiManager.MulticastLock multicastLock1 = manager.new MulticastLock();
+        WifiManager.MulticastLock multicastLock2 = manager.new MulticastLock();
+        multicastLock1.acquire(); // OK
+        multicastLock2.acquire(); // OK
+        multicastLock1.release(); // OK
+        multicastLock2.release(); // OK
     }
 }
