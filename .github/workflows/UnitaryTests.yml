@@ -1,12 +1,12 @@
 name: "Actions - Run CodeQL Unit Tests"
 
 on:
-  workflow_dispatch: # Déclenchement manuel toujours possible
+  workflow_dispatch:
   pull_request:
     branches:
-      - 'UnitTests' # Déclenche le workflow quand une PR cible la branche 'test'
+      - 'UnitTests'
     paths:
-      - 'codeql-custom-queries-*/**' # Uniquement si ces dossiers sont impactés
+      - 'codeql-custom-queries-*/**'
   push:
     branches:
       - 'UnitTests'
@@ -36,7 +36,7 @@ jobs:
             else
               # Pour un push sur une branche, on compare avec le commit précédent
               # Si c'est un nouveau commit, on compare avec HEAD^
-              BASE_SHA="HEAD^"
+              BASE_SHA="${{ github.event.before }}"
             fi
 
             # Extraction des noms de dossiers uniques
