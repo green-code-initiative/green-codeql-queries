@@ -4,12 +4,12 @@ on:
   workflow_dispatch: # Déclenchement manuel toujours possible
   pull_request:
     branches:
-      - 'test' # Déclenche le workflow quand une PR cible la branche 'test'
+      - 'UnitTests' # Déclenche le workflow quand une PR cible la branche 'test'
     paths:
       - 'codeql-custom-queries-*/**' # Uniquement si ces dossiers sont impactés
   push:
     branches:
-      - 'test'
+      - 'UnitTests'
 
 jobs:
   detect-changes:
