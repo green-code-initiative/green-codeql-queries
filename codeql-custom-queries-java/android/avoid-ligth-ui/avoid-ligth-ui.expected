@@ -1,4 +1,0 @@
-| avoid-ligth-ui.xml:5:5:5:65 | parent=Theme.AppCompat.Light | Avoid using light themes ('Theme.AppCompat.Light'). Light themes consume more energy on (AM)OLED screens. Prefer a dark theme instead. |
-| avoid-ligth-ui.xml:9:5:9:82 | parent=Theme.MaterialComponents.Light | Avoid using light themes ('Theme.MaterialComponents.Light'). Light themes consume more energy on (AM)OLED screens. Prefer a dark theme instead. |
-| avoid-ligth-ui.xml:13:5:13:83 | parent=Theme.AppCompat.Light.DarkActionBar | Avoid using light themes ('Theme.AppCompat.Light.DarkActionBar'). Light themes consume more energy on (AM)OLED screens. Prefer a dark theme instead. |
-| avoid-ligth-ui.xml:17:5:17:100 | parent=Theme.MaterialComponents.Light.DarkActionBar | Avoid using light themes ('Theme.MaterialComponents.Light.DarkActionBar'). Light themes consume more energy on (AM)OLED screens. Prefer a dark theme instead. |

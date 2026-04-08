@@ -1,2 +1,0 @@
-| avoid-uncached-data-reception.java:14:13:14:39 | getInputStream(...) | Avoid not caching HTTP responses. Use UncachedDataCache.install() in the same method to cache responses and save energy. |
-| avoid-uncached-data-reception.java:47:32:47:59 | getResponseCode(...) | Avoid not caching HTTP responses. Use UncachedDataCache.install() in the same method to cache responses and save energy. |

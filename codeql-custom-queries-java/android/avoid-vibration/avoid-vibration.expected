@@ -1,7 +1,0 @@
-| avoid-vibration.java:15:9:15:62 | getSystemService(...) | Avoid using the vibrator service ('VIBRATOR_SERVICE'). The vibration hardware component consumes battery power and its added value is not clear. |
-| avoid-vibration.java:26:9:26:70 | getSystemService(...) | Avoid using the vibrator service ('VIBRATOR_MANAGER_SERVICE'). The vibration hardware component consumes battery power and its added value is not clear. |
-| avoid-vibration.java:37:9:37:62 | getSystemService(...) | Avoid using the vibrator service ('VIBRATOR_SERVICE'). The vibration hardware component consumes battery power and its added value is not clear. |
-| avoid-vibration.java:42:9:42:62 | getSystemService(...) | Avoid using the vibrator service ('VIBRATOR_SERVICE'). The vibration hardware component consumes battery power and its added value is not clear. |
-| avoid-vibration.java:54:13:54:66 | getSystemService(...) | Avoid using the vibrator service ('VIBRATOR_SERVICE'). The vibration hardware component consumes battery power and its added value is not clear. |
-| avoid-vibration.java:66:9:66:62 | getSystemService(...) | Avoid using the vibrator service ('VIBRATOR_SERVICE'). The vibration hardware component consumes battery power and its added value is not clear. |
-| avoid-vibration.java:67:9:67:70 | getSystemService(...) | Avoid using the vibrator service ('VIBRATOR_MANAGER_SERVICE'). The vibration hardware component consumes battery power and its added value is not clear. |

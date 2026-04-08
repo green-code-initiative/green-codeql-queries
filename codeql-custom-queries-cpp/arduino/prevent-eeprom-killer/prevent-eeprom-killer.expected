@@ -1,4 +1,0 @@
-| prevent-eeprom-killer.cpp:16:16:16:20 | call to write | Don't use 'EEPROM.write' inside loop(). Use 'EEPROM.update' instead to prevent hardware degradation. |
-| prevent-eeprom-killer.cpp:27:20:27:24 | call to write | Don't use 'EEPROM.write' inside loop(). Use 'EEPROM.update' instead to prevent hardware degradation. |
-| prevent-eeprom-killer.cpp:39:20:39:24 | call to write | Don't use 'EEPROM.write' inside loop(). Use 'EEPROM.update' instead to prevent hardware degradation. |
-| prevent-eeprom-killer.cpp:92:20:92:24 | call to write | Don't use 'EEPROM.write' inside loop(). Use 'EEPROM.update' instead to prevent hardware degradation. |

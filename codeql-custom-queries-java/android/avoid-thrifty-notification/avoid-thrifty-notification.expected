@@ -1,2 +1,0 @@
-| avoid-thrifty-notification.java:23:9:23:84 | setVibrate(...) | Avoid calling 'setVibrate' on NotificationCompat.Builder. Default notification settings are enough. For API 31+, consider using NotificationChannel#setVibrationPattern() instead. |
-| avoid-thrifty-notification.java:33:9:33:62 | setSound(...) | Avoid calling 'setSound' on NotificationCompat.Builder. Default notification settings are enough. For API 31+, consider using NotificationChannel#setVibrationPattern() instead. |

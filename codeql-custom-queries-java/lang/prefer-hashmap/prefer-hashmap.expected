@@ -1,4 +1,0 @@
-| prefer-hashmap.java:12:39:12:53 | new TreeMap<String,String>(...) | Warning: you may use a HashMap instead of TreeMap<String,String> |
-| prefer-hashmap.java:22:45:22:65 | new LinkedHashMap<String,String>(...) | Warning: you may use a HashMap instead of LinkedHashMap<String,String> |
-| prefer-hashmap.java:32:47:32:85 | new TreeMap<String,String>(...) | Warning: you may use a HashMap instead of TreeMap<String,String> |
-| prefer-hashmap.java:42:52:42:87 | new LinkedHashMap<String,String>(...) | Warning: you may use a HashMap instead of LinkedHashMap<String,String> |

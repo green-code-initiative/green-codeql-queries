@@ -1,2 +1,0 @@
-| avoid-high-accuracy-gps.js:10:5:10:28 | enableH ... y: true | Avoid 'enableHighAccuracy: true' in getCurrentPosition() to reduce battery drain and energy consumption. Use 'enableHighAccuracy: false' (default) unless meter-level precision is strictly required for the core user experience. |
-| avoid-high-accuracy-gps.js:19:5:19:28 | enableH ... y: true | Avoid 'enableHighAccuracy: true' in watchPosition() to reduce battery drain and energy consumption. Use 'enableHighAccuracy: false' (default) unless meter-level precision is strictly required for the core user experience. |
