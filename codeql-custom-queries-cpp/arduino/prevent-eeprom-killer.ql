@@ -1,36 +1,33 @@
 /**
  * @name Prevent killing EEPROM through write cycles
  * @description Using 'write' instead of 'update' inside a loop causes physical wear
- * on the EEPROM cells (limited to ~100k cycles).
+ *              on the EEPROM cells (limited to ~100k cycles).
  * @kind problem
  * @problem.severity warning
  * @id cpp/arduino/prevent-eeprom-killer
  * @tags efficiency
- * sustainability
- * arduino
+ * @tags sustainability
+ * @tags arduino
+ * @tags cpp
  */
 
 import cpp
 
-/**
- * Represents a call to the 'write' method on an EEPROM object.
- */
 class EepromWriteCall extends FunctionCall {
   EepromWriteCall() {
-    // 1. The function being called is named "write"
     this.getTarget().getName() = "write" and
-    // 2. It belongs to a class named "EEPROMClass"
-    this.getTarget().(MemberFunction).getDeclaringType().getName() = "EEPROMClass"
+    // On utilise matches pour être plus flexible sur le nom de la classe (Stub ou Class)
+    this.getTarget().(MemberFunction).getDeclaringType().getName().matches("EEPROM%")
   }
 }
 
-from EepromWriteCall call, Function loop
+from EepromWriteCall call, Function f
 where
-  // Target the Arduino loop() function
-  loop.getName() = "loop" and
-  call.getEnclosingFunction() = loop and
-
-  // Guard check: ensures the call isn't wrapped in a conditional
-  not exists(IfStmt s | s.getAChild*() = call.getEnclosingStmt())
-
+  f = call.getEnclosingFunction() and
+  (
+    // Cas 1 : C'est dans la fonction principale loop
+    f.getName() = "loop" or 
+    // Cas 2 : C'est n'importe où à l'intérieur d'une boucle (for, while)
+    exists(Loop l | l.getAChild*() = call.getEnclosingStmt())
+  )
 select call, "Don't use 'EEPROM.write' inside loop(). Use 'EEPROM.update' instead to prevent hardware degradation."
