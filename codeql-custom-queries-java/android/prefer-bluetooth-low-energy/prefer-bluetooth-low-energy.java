@@ -1,5 +1,3 @@
-package android.bluetooth;
-
 class BluetoothAdapter {
     public static BluetoothAdapter getDefaultAdapter() { return null; }
     public BluetoothDevice getRemoteDevice(String address) { return null; }
