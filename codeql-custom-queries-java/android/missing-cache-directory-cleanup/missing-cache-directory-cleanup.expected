@@ -1,0 +1,1 @@
+| MissingCacheDirectoryCleanup.java:21:7:21:17 | BadActivity | Component BadActivity never clears the cache directory. Consider calling getCacheDir().deleteRecursively() periodically to reduce storage footprint. |
