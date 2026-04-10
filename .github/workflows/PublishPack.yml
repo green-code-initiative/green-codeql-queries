@@ -112,19 +112,27 @@ jobs:
       - name: Commit version update
         id: commit_step
         run: |
+          # 1. Configuration de l'identité
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git pull --rebase origin main
-          
-          # On ajoute spécifiquement le fichier de pack du langage en cours
+
+          # 2. On indexe (stage) les modifications du fichier pack d'abord
           git add ${{ matrix.package }}/qlpack.yml ${{ matrix.package }}/codeql-pack.yml 2>/dev/null || true
-          
+
+          # 3. On vérifie s'il y a vraiment des changements
           if ! git diff --staged --quiet; then
+            # 4. On commit localement
             git commit -m "chore: bump ${{ matrix.package }} version [skip ci]"
+            
+            # 5. On récupère les changements distants avec rebase 
+            # (Le rebase fonctionnera car les changements locaux sont maintenant commités)
+            git pull --rebase origin main
+            
+            # 6. On pousse
             git push origin main
             echo "new_sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
           else
-            echo "Aucun changement de version nécessaire."
+            echo "Aucun changement détecté."
             echo "new_sha=" >> $GITHUB_OUTPUT
           fi
 
