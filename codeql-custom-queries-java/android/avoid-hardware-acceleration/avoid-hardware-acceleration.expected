@@ -1,0 +1,3 @@
+| avoid-hardware-acceleration.xml:6:5:8:31 | hardwareAccelerated=true | Hardware acceleration is explicitly enabled (android:hardwareAccelerated="true") on <application>. Consider disabling it to reduce RAM usage and energy consumption. |
+| avoid-hardware-acceleration.xml:11:9:13:50 | hardwareAccelerated=true | Hardware acceleration is explicitly enabled (android:hardwareAccelerated="true") on <activity>. Consider disabling it to reduce RAM usage and energy consumption. |
+| avoid-hardware-acceleration.xml:16:9:18:50 | hardwareAccelerated=true | Hardware acceleration is explicitly enabled (android:hardwareAccelerated="true") on <activity>. Consider disabling it to reduce RAM usage and energy consumption. |
