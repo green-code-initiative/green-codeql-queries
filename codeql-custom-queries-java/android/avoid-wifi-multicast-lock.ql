@@ -14,12 +14,28 @@
 
 import java
 
-from MethodCall acquireCall
+predicate isMulticastLockType(RefType t) {
+  // Production : type qualifié Android
+  t.hasQualifiedName("android.net.wifi", "WifiManager$MulticastLock")
+  or
+  // Stub de test : inner class dans le package par défaut
+  t.getName() = "MulticastLock" and
+  t.getEnclosingType().getName() = "WifiManager"
+}
+
+predicate isMulticastLockCall(MethodCall mc, Variable lock) {
+  isMulticastLockType(mc.getMethod().getDeclaringType()) and
+  mc.getQualifier() = lock.getAnAccess()
+}
+
+from MethodCall acquireCall, Variable lock
 where
   acquireCall.getMethod().getName() = "acquire" and
+  isMulticastLockCall(acquireCall, lock) and
   not exists(MethodCall releaseCall |
-    releaseCall.getEnclosingCallable() = acquireCall.getEnclosingCallable() and
-    releaseCall.getMethod().getName() = "release"
+    releaseCall.getMethod().getName() = "release" and
+    isMulticastLockCall(releaseCall, lock) and
+    releaseCall.getEnclosingCallable() = acquireCall.getEnclosingCallable()
   )
 select acquireCall,
   "WifiManager.MulticastLock.acquire() is called here without a corresponding release() in the same method. This can cause significant battery drain."
