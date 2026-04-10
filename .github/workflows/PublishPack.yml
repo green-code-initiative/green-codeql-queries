@@ -1,0 +1,110 @@
+name: "CodeQL - Multi-language Publish"
+
+on:
+  workflow_run:
+    workflows: ["Actions - Run CodeQL Unit Tests"]
+    types:
+      - completed
+  workflow_dispatch:
+
+jobs:
+  check-success:
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
+    steps:
+      - run: echo "Lancement de la publication..."
+
+  detect-changes:
+    needs: check-success
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - id: set-matrix
+        run: |
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            DIFF=$(ls -d codeql-custom-queries-*/ 2>/dev/null | sed 's/\///g' | jq -R -s -c 'split("\n") | map(select(length > 0))')
+          else
+            DIFF=$(git diff --name-only HEAD^ HEAD | grep '^codeql-custom-queries-' | cut -d/ -f1 | sort -u | jq -R -s -c 'split("\n") | map(select(length > 0))')
+          fi
+          echo "matrix=$DIFF" >> $GITHUB_OUTPUT
+
+  test-and-publish:
+    needs: detect-changes
+    if: ${{ needs.detect-changes.outputs.matrix != '[]' && needs.detect-changes.outputs.matrix != '' }}
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: write
+      statuses: write # REQUIS pour l'API Checks/Statuses
+    strategy:
+      fail-fast: false
+      matrix:
+        package: ${{ fromJson(needs.detect-changes.outputs.matrix) }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install CodeQL CLI
+        uses: github/codeql-action/setup-codeql@v4
+
+      - name: Bump Version and Publish
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cd ${{ matrix.package }}
+          PACK_FILE=$(ls qlpack.yml 2>/dev/null || ls codeql-pack.yml 2>/dev/null)
+          FULL_PACK_NAME=$(grep "^name:" "$PACK_FILE" | sed 's/name:[[:space:]]*//' | tr -d '"' | tr -d "'")
+          OWNER=$(echo $FULL_PACK_NAME | cut -d/ -f1)
+          PACKAGE_NAME=$(echo $FULL_PACK_NAME | cut -d/ -f2)
+
+          RESPONSE=$(curl -s -H "Authorization: Bearer $GITHUB_TOKEN" \
+            "https://api.github.com/users/$OWNER/packages/container/$PACKAGE_NAME/versions")
+          
+          LATEST_VERSION=$(echo "$RESPONSE" | jq -r '.[0].metadata.container.tags[0]' 2>/dev/null)
+
+          if [ "$LATEST_VERSION" == "null" ] || [ -z "$LATEST_VERSION" ]; then
+            NEW_VERSION="1.0.0"
+          else
+            IFS='.' read -r MAJOR MINOR PATCH <<< "$LATEST_VERSION"
+            NEW_VERSION="$MAJOR.$MINOR.$((PATCH + 1))"
+          fi
+          
+          sed -i "s/^version: .*/version: $NEW_VERSION/" "$PACK_FILE"
+          codeql pack install
+          codeql pack publish
+
+      - name: Commit version update
+        id: commit_step
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git pull --rebase origin main
+          git add ${{ matrix.package }}/qlpack.yml ${{ matrix.package }}/codeql-pack.yml 2>/dev/null || true
+          
+          if ! git diff --staged --quiet; then
+            git commit -m "chore: bump ${{ matrix.package }} version [skip ci]"
+            git push origin main
+            # On récupère le SHA du commit qu'on vient de pousser
+            echo "new_sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
+          else
+            echo "new_sha=" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Mark commit as successful via API
+        if: steps.commit_step.outputs.new_sha != ''
+        run: |
+          curl -L \
+            -X POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            https://api.github.com/repos/${{ github.repository }}/statuses/${{ steps.commit_step.outputs.new_sha }} \
+            -d '{"state":"success","target_url":"https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}","description":"Le pack CodeQL a été publié avec succès.","context":"CodeQL Publish"}'
