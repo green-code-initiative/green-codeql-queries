@@ -79,7 +79,7 @@ jobs:
           if git diff --staged --quiet; then
             echo "Aucun changement (les fichiers sont déjà synchronisés)."
           else
-            COMMIT_SUBJECT="chore: sync and flatten validated queries (including deletes) [skip ci]"
+            COMMIT_SUBJECT="chore: sync and flatten queries [skip ci]"
             printf "$COMMIT_SUBJECT\n\n$AUTHORS" > commit_msg.txt
             
             git commit -F commit_msg.txt
