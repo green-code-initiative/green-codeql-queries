@@ -1,32 +1,37 @@
-# Contribution Guidelines
+# Submitting a Pull Request
 
-Please note that this project is released with a
-[Contributor Code of Conduct](code-of-conduct.md). By participating in this
-project you agree to abide by its terms.
+Please point all pull request to the `dev` branch. Ensure your contribution adheres to the following quality guidelines:
 
-# Submitting a Pull Request 
+## Organization of the green queries
 
-Ensure your pull request adheres to the following guidelines:
+Per-language directories `codeql-custom-queries-<lang>` are compliant with the CodeQL extension for Visual Studio Code. For better clarity, we recommend to place your query into a sub-directory, as the following example targeting the Python language:
 
-- Please point all pull request to the `main` branch. This is so all changes can be reviewed before merging to main for the next release.
-- In order to meet the Developer Certificate of Origin (DCO) on Pull Requests, please ensure to  include Signed-off-by: Author Name <authoremail@example.com> in every commit message. You can also do this automatically by using the -s flag (i.e., git commit -s).
-- Additions should be added in alphabetical order in the relevant category.
-- Use [title casing (AP Stylebook)](https://en.wikipedia.org/wiki/Title_case#AP_Stylebook) in the following format: `[List Name](link)`.
-- Search previous suggestions to make sure your suggestion isn't a duplicate.
-- Ensure your commit are following the [Conventional Commit](https://www.conventionalcommits.org/en/v1.0.0/), for better readability.
+| Directory | Scope | Sustainability issue the query could detect |
+| :--- | :--- | :--- |
+| **`lang`** | Core language syntax | “Busy-wait loop”, “Repeated regex compilation inside loop”, ... |
+| **`ai`** | Specific domains | “Unnecessary retraining”, “No batching for inference”, ... |
+| **`web` / `flask`** | Frameworks | “No pagination”, “No caching headers (ETag/Cache-Control)”, ... |
 
-Thank you for your suggestions and/or contributions!
+> [!TIP]
+> Your query metadata must be chosen carefully (`@name`/`@description`/`@tags`) and even your alert message, so that *Copilot Autofix* can infer a patch. Optional file `.qhelp` is also useful.
 
-## Updating your Pull Request
+## Unit testing of the green queries
 
-A lot of times, making a PR adhere to the standards above can be difficult.
-If the maintainers notice anything that we'd like changed, we'll ask you to
-edit your PR before we merge it. There's no need to open a new PR, just edit
-the existing one. If you're not sure how to do that,
-[here is a guide](https://github.com/RichardLitt/knowledge/blob/master/github/amending-a-commit-guide.md)
-on the different ways you can update your PR so that we can merge it.
+Given a sustainability general issue for Python, saying "Busy-Wait Loop", put the query `busy-wait-loop.ql` and its sibling files (.py, .expected) for unit testing.
+```
+/codeql-custom-queries-python
+  |-- lang/
+       |-- busy-wait-loop.ql        <-- Your new query
+       |-- busy-wait-loop.py        <-- Your test code (with/without problems)
+       |-- busy-wait-loop.expected  <-- The issues that CodeQL is supposed to detect
+```
 
-## Useful Documentation :
+# Merging the Pull Request
+
+Your pull request will be reviewed, and if it is accepted and merged, the rest of the process is automated. Our workflows check that the unit tests pass (please run tests locally before), and if they do, your new query is added to the relevant Green CodeQL pack, and its version number is incremented.
+
+
+# Useful Documentation :
 
 - [Official Github CodeQL Doc](https://codeql.github.com/docs/)
 - [CodeQl CheatSheet - CodeQL Agent Project](https://codeql-agent-project.github.io/codeql-cheatsheet/)

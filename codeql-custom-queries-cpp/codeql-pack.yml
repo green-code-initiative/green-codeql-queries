@@ -1,0 +1,8 @@
+---
+library: false
+name: green-code-initiative/cpp-queries
+version: 1.0.0
+extractor: cpp
+groups: cpp
+dependencies:
+  codeql/cpp-all: "*"

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.app">
+
+    <!-- 🚫 Noncompliant - hardwareAccelerated explicitly set to true on application -->
+    <application
+        android:hardwareAccelerated="true"
+        android:label="MyApp">
+
+        <!-- 🚫 Noncompliant - hardwareAccelerated explicitly set to true on activity -->
+        <activity
+            android:name=".MainActivity"
+            android:hardwareAccelerated="true" />
+
+        <!-- 🚫 Noncompliant - hardwareAccelerated true on a secondary activity -->
+        <activity
+            android:name=".DetailActivity"
+            android:hardwareAccelerated="true" />
+
+        <!-- ✅ Compliant - hardwareAccelerated explicitly disabled on activity -->
+        <activity
+            android:name=".LowPowerActivity"
+            android:hardwareAccelerated="false" />
+
+        <!-- ✅ Compliant - no hardwareAccelerated attribute (uses application default) -->
+        <activity
+            android:name=".OtherActivity" />
+
+    </application>
+
+</manifest>

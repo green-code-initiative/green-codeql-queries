@@ -1,7 +1,8 @@
 ---
 library: false
 name: green-code-initiative/actions-queries
-version: 1.0.10
+version: 1.0.3
+extractor: actions
 groups: yaml
 dependencies:
   codeql/actions-all: "*"

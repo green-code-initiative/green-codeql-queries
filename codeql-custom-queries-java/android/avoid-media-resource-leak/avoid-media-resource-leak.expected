@@ -1,0 +1,10 @@
+| avoid-media-resource-leak.java:16:36:16:54 | new MediaRecorder(...) | Call release() on 'MediaRecorder' when it is no longer needed to free memory, codec instances, and avoid continuous battery consumption. |
+| avoid-media-resource-leak.java:19:32:19:48 | new MediaPlayer(...) | Call release() on 'MediaPlayer' when it is no longer needed to free memory, codec instances, and avoid continuous battery consumption. |
+| avoid-media-resource-leak.java:23:34:23:52 | new MediaRecorder(...) | Call release() on 'MediaRecorder' when it is no longer needed to free memory, codec instances, and avoid continuous battery consumption. |
+| avoid-media-resource-leak.java:31:30:31:46 | new MediaPlayer(...) | Call release() on 'MediaPlayer' when it is no longer needed to free memory, codec instances, and avoid continuous battery consumption. |
+| avoid-media-resource-leak.java:39:27:39:45 | new MediaRecorder(...) | Call release() on 'MediaRecorder' when it is no longer needed to free memory, codec instances, and avoid continuous battery consumption. |
+| avoid-media-resource-leak.java:40:25:40:41 | new MediaPlayer(...) | Call release() on 'MediaPlayer' when it is no longer needed to free memory, codec instances, and avoid continuous battery consumption. |
+| avoid-media-resource-leak.java:50:34:50:52 | new MediaRecorder(...) | Call release() on 'MediaRecorder' when it is no longer needed to free memory, codec instances, and avoid continuous battery consumption. |
+| avoid-media-resource-leak.java:58:30:58:46 | new MediaPlayer(...) | Call release() on 'MediaPlayer' when it is no longer needed to free memory, codec instances, and avoid continuous battery consumption. |
+| avoid-media-resource-leak.java:66:27:66:45 | new MediaRecorder(...) | Call release() on 'MediaRecorder' when it is no longer needed to free memory, codec instances, and avoid continuous battery consumption. |
+| avoid-media-resource-leak.java:67:25:67:41 | new MediaPlayer(...) | Call release() on 'MediaPlayer' when it is no longer needed to free memory, codec instances, and avoid continuous battery consumption. |
