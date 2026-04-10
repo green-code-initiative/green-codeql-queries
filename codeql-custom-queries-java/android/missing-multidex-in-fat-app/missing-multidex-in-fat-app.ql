@@ -6,7 +6,7 @@
  * @precision high
  * @id java/android/missing-multidex-in-fat-app
  * @link https://github.com/cnumr/best-practices-mobile
- * @tags andoid
+ * @tags android
  * @tags java
  */
 
