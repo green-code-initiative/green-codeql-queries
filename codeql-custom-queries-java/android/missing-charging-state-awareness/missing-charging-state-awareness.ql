@@ -1,7 +1,7 @@
 /**
  * @name Missing battery and charging state monitoring
  * @description It's always good that an app has different behavior when device is connected/disconnected to a power station, or has different battery levels. One can monitor the changes in charging state with a broadcast receiver registered on the actions ACTION_POWER_CONNECTED and ACTION_POWER_DISCONNECTED, or monitor significant changes in battery level with a broadcast receiver registered on the actions BATTERY_LOW and BATTERY_OKAY.
- * @kind problem
+ * @kind recommendation
  * @problem.severity warning
  * @precision high
  * @id java/android/missing-charging-state-awareness
