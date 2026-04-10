@@ -57,9 +57,10 @@ jobs:
           done
 
           # 3. Récupération des auteurs uniques (filtrés par nom pour éviter les doublons d'emails)
-          AUTHORS=$(git log origin/main..${{ github.event.workflow_run.head_sha }} --format='%an|%ae' | \
-                    sort -t'|' -k1,1 -u | \
-                    awk -F'|' '{printf "Co-authored-by: %s <%s>\n", $1, $2}')
+          AUTHORS=$(git log origin/main..${{ github.event.workflow_run.head_sha }} --format='%an|%ae' -- codeql-custom-queries-* | \
+          grep -v "github-actions" | \
+          sort -t'|' -k1,1 -u | \
+          awk -F'|' '{printf "Co-authored-by: %s <%s>\n", $1, $2}')
 
           # 4. Basculement sur main
           git checkout main
