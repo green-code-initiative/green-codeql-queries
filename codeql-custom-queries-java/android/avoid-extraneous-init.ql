@@ -8,7 +8,6 @@
  * @problem.severity warning
  * @precision high
  * @id java/android/avoid-extraneous-init
- * @link https://green-code-initiative.org/rules#id:GCI95
  * @tags android
  * @tags java
  */
