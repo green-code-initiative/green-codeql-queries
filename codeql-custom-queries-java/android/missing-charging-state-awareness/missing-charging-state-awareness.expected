@@ -1,0 +1,1 @@
+| MissingChargingStateAwareness.java:36:7:36:17 | BadActivity | Component BadActivity does not monitor charging state or battery level. Consider registering a receiver for ACTION_POWER_CONNECTED/ACTION_POWER_DISCONNECTED or BATTERY_LOW/BATTERY_OKAY to adapt behavior based on power availability. |
