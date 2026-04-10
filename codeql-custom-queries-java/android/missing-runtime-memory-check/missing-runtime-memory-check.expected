@@ -1,0 +1,2 @@
+| MissingRuntimeMemoryCheck.java:34:27:34:70 | decodeFile(...) | Memory-intensive call without any ActivityManager.isLowRamDevice() or getMemoryClass() check in component BadActivity. Consider adapting memory usage for low-RAM devices. |
+| MissingRuntimeMemoryCheck.java:35:24:35:79 | createBitmap(...) | Memory-intensive call without any ActivityManager.isLowRamDevice() or getMemoryClass() check in component BadActivity. Consider adapting memory usage for low-RAM devices. |
