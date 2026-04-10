@@ -4,12 +4,12 @@ on:
   workflow_dispatch:
   pull_request:
     branches:
-      - 'UnitTests'
+      - 'test'
     paths:
       - 'codeql-custom-queries-*/**'
   push:
     branches:
-      - 'UnitTests'
+      - 'test'
 
 jobs:
   detect-changes:
