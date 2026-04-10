@@ -1,15 +1,13 @@
 /**
  * @name Missing runtime memory check
- * @description The application uses memory-intensive operations without calling
- *              ActivityManager.isLowRamDevice() or ActivityManager.getMemoryClass()
- *              to adapt behavior to low-memory devices.
+ * @description Methods such as ActivityManager#isLowRamDevice() and ActivityManager#getMemoryClass() help you determine memory constraints at runtime. This information allows you to reduce memory usage. Compatibility with low-memory devices is good practice to help them last.
  * @kind problem
  * @problem.severity warning
- * @precision medium
- * @id java/android/missing-memory-check
- * @tags efficiency
- *       android
- *       eco-design
+ * @precision high
+ * @id java/android/missing-runtime-memory-check
+ * @link https://github.com/cnumr/best-practices-mobile
+ * @tags andoid
+ * @tags java
  */
 
 import java
