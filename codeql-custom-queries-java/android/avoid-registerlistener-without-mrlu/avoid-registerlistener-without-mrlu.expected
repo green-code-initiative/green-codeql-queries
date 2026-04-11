@@ -1,0 +1,1 @@
+| AvoidRegisterListenerWithoutMrlu.java:23:9:23:48 | registerListener(...) | SensorManager.registerListener() called without maxReportLatencyUs. Use the 4-argument overload with a positive maxReportLatencyUs to enable sensor batching and reduce power consumption. |

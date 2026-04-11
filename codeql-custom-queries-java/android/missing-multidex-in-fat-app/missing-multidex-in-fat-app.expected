@@ -1,0 +1,2 @@
+| MissingMultidexInFatApp.java:16:7:16:12 | BadApp | Class BadApp extends MultiDexApplication. This indicates multidex is enabled \u2014 consider reducing method count to avoid fat APKs that struggle on low-storage devices. |
+| MissingMultidexInFatApp.java:28:9:28:30 | install(...) | Call to MultiDex.install() detected. This indicates multidex is enabled \u2014 consider reducing method count to avoid fat APKs that struggle on low-storage devices. |
