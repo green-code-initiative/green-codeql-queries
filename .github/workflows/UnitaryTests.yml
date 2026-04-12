@@ -1,4 +1,4 @@
-name: "Actions - Run CodeQL Unit Tests"
+name: "Run CodeQL Unit Tests"
 
 on:
   workflow_dispatch:

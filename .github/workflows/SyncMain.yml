@@ -1,8 +1,8 @@
-name: "Actions - Sync Queries to Main"
+name: "Sync Queries to Main"
 
 on:
   workflow_run:
-    workflows: ["Actions - Run CodeQL Unit Tests"]
+    workflows: ["Run CodeQL Unit Tests"]
     types:
       - completed
     branches:
