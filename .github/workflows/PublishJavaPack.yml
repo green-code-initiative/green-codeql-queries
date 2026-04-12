@@ -12,7 +12,7 @@ on:
 
 jobs:
   publish:
-    name: Test and Publish Java Pack
+    name: Publish Java Pack
     runs-on: ubuntu-latest
     permissions:
       packages: write
