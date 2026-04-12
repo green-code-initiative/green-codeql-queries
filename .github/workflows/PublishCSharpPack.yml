@@ -27,7 +27,7 @@ jobs:
 
       - name: Install CodeQL CLI
         id: install-codeql
-        uses: github/github-actions/setup-codeql@v4
+        uses: github/codeql-action/setup-codeql@v4
 
       - name: Setup CodeQL Path
         run: echo "$(dirname ${{ steps.install-codeql.outputs.codeql-path }})" >> $GITHUB_PATH
