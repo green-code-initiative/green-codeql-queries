@@ -20,27 +20,18 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: test
-          fetch-depth: 0 # Nécessaire pour récupérer l'historique des auteurs
+          fetch-depth: 0
 
       - name: Configure Git
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
 
-      - name: Sync, Extract and Push with Co-authors
+      - name: Sync, Extract and Push
         run: |
-          # 1. Identifier TOUS les fichiers .ql sur la branche test
-          # On ne se base plus seulement sur le diff, mais sur l'état actuel de 'test'
-          # pour refléter exactement ce qui doit exister sur 'main'
-          FILES=$(find codeql-custom-queries-* -name "*.ql" || true)
-
-          if [ -z "$FILES" ]; then
-            echo "Aucun fichier .ql trouvé sur la branche test."
-            # Optionnel : si on veut vider main si test est vide, on ne quitte pas ici.
-          fi
-
-          # 2. Préparation de la structure propre dans /tmp
+          # 1. Préparation de la structure (Identique)
           mkdir -p /tmp/sync_root
+          FILES=$(find codeql-custom-queries-* -name "*.ql" || true)
 
           for file in $FILES; do
             if [ -f "$file" ]; then
@@ -48,40 +39,52 @@ jobs:
               LANG=$(echo "$PACK_NAME" | sed 's/codeql-custom-queries-//')
               CATEGORY=$(echo "$file" | cut -d/ -f2)
               FILENAME=$(basename "$file")
-
               FINAL_PATH="codeql-custom-queries-$LANG/$CATEGORY/$FILENAME"
-              
               mkdir -p "/tmp/sync_root/$(dirname "$FINAL_PATH")"
               cp "$file" "/tmp/sync_root/$FINAL_PATH"
             fi
           done
 
-          # 3. Récupération des auteurs uniques (filtrés par nom pour éviter les doublons d'emails)
-          AUTHORS=$(git log origin/main..${{ github.event.workflow_run.head_sha }} --format='%an|%ae' -- codeql-custom-queries-* | \
-          grep -v "github-actions" | \
-          sort -t'|' -k1,1 -u | \
-          awk -F'|' '{printf "Co-authored-by: %s <%s>\n", $1, $2}')
+          # 2. RÉCUPÉRATION DU DERNIER VRAI AUTEUR
+          # --no-merges : Ignore les commits de fusion
+          # -1 : Prend uniquement le premier résultat trouvé (le plus récent)
+          LAST_REAL_AUTHOR=$(git log -1 --no-merges --format='%an|%ae' HEAD)
+          
+          if [ -z "$LAST_REAL_AUTHOR" ]; then
+            echo "Aucun commit réel trouvé, abandon de l'extraction de l'auteur."
+            CO_AUTHOR=""
+          else
+            A_NAME=$(echo "$LAST_REAL_AUTHOR" | cut -d'|' -f1)
+            A_EMAIL=$(echo "$LAST_REAL_AUTHOR" | cut -d'|' -f2)
+            
+            # Exclusion du bot si c'est lui qui a fait le dernier commit réel
+            if [[ "$A_NAME" == *"github-actions"* ]]; then
+              CO_AUTHOR=""
+            else
+              CO_AUTHOR="Co-authored-by: $A_NAME <$A_EMAIL>"
+            fi
+          fi
 
-          # 4. Basculement sur main
+          # 3. Basculement sur main
           git checkout main
           git pull origin main
 
-          # 5. GESTION DE LA SUPPRESSION : 
-          # On supprime tous les .ql existants dans les dossiers de destination sur main
-          # avant de remettre les versions à jour de /tmp.
-          # Cela garantit que si un fichier n'est plus dans /tmp, il disparaît de main.
+          # 4. Nettoyage et injection
           find codeql-custom-queries-* -name "*.ql" -delete || true
+          if [ -d "/tmp/sync_root" ] && [ "$(ls -A /tmp/sync_root)" ]; then
+            cp -rv /tmp/sync_root/* .
+          fi
 
-          # 6. Injection des fichiers (re-création des fichiers présents sur test)
-          cp -rv /tmp/sync_root/* .
-
-          # 7. Commit avec gestion des Co-authors
+          # 5. Commit et Push
           git add .
           if git diff --staged --quiet; then
-            echo "Aucun changement (les fichiers sont déjà synchronisés)."
+            echo "Aucun changement réel détecté."
           else
-            COMMIT_SUBJECT="chore: sync and flatten queries"
-            printf "$COMMIT_SUBJECT\n\n$AUTHORS" > commit_msg.txt
+            echo "chore: sync and flatten queries" > commit_msg.txt
+            if [ -n "$CO_AUTHOR" ]; then
+              echo "" >> commit_msg.txt
+              echo "$CO_AUTHOR" >> commit_msg.txt
+            fi
             
             git commit -F commit_msg.txt
             git push origin main
