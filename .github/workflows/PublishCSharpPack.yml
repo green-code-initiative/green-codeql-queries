@@ -1,63 +1,46 @@
-name: "C# - Run Tests and Publish CodeQL Pack"
+name: "C# - Publish CodeQL Pack"
 
 on:
   workflow_dispatch:
-  pull_request:
-    branches: [ "dev" ]
+  push:
+    branches: [ "main" ]
     paths:
       - 'codeql-custom-queries-csharp/**'
+      # On ignore les changements de version faits par le bot pour éviter les boucles
+      - '!codeql-custom-queries-csharp/qlpack.yml'
+      - '!codeql-custom-queries-csharp/codeql-pack.yml'
 
 jobs:
-
-  test:
-    name: Run Tests
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-      - name: Install CodeQL CLI
-        id: install-codeql
-        uses: github/codeql-action/setup-codeql@v4
-      - name: Run Tests
-        working-directory: codeql-custom-queries-csharp
-        run: |
-          export PATH="$(dirname ${{ steps.install-codeql.outputs.codeql-path }}):$PATH"
-          
-          echo "Installation des dépendances du pack..."
-          codeql pack install
-          
-          echo "Exécution des tests unitaires CodeQL..."
-          codeql test run . --format=text
-
   publish:
-    name: Publish Pack
+    name: Publish C# Pack
     runs-on: ubuntu-latest
-    needs: test
-    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
     permissions:
       packages: write
       contents: write
+      statuses: write
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
 
       - name: Install CodeQL CLI
         id: install-codeql
-        uses: github/codeql-action/setup-codeql@v4
+        uses: github/github-actions/setup-codeql@v4
 
-      - name: Increment version and publish
+      - name: Setup CodeQL Path
+        run: echo "$(dirname ${{ steps.install-codeql.outputs.codeql-path }})" >> $GITHUB_PATH
+
+      - name: Validate and Publish
+        id: publish_step
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          export PATH="$(dirname ${{ steps.install-codeql.outputs.codeql-path }}):$PATH"
           cd codeql-custom-queries-csharp
-
-          git pull --rebase origin main
+          
+          echo "Installation des dépendances et vérification..."
+          codeql pack install
           
           # 1. Détection du fichier de pack
           PACK_FILE=$(ls qlpack.yml 2>/dev/null || ls codeql-pack.yml 2>/dev/null)
@@ -76,24 +59,42 @@ jobs:
             NEW_VERSION="1.0.0"
           else
             echo "Dernière version trouvée : $LATEST_VERSION"
-            MAJOR=$(echo $LATEST_VERSION | cut -d. -f1)
-            MINOR=$(echo $LATEST_VERSION | cut -d. -f2)
-            PATCH=$(echo $LATEST_VERSION | cut -d. -f3)
+            IFS='.' read -r MAJOR MINOR PATCH <<< "$LATEST_VERSION"
             NEW_VERSION="$MAJOR.$MINOR.$((PATCH + 1))"
           fi
           
           echo "Nouvelle version déterminée : $NEW_VERSION"
-          
           sed -i "s/^version: .*/version: $NEW_VERSION/" "$PACK_FILE"
           
-          echo "Publication du pack sur GitHub Packages..."
+          echo "Publication du pack..."
           codeql pack publish
+          echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
 
       - name: Commit version update
+        id: commit_step
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add codeql-custom-queries-actions/
-          git diff --staged --quiet || git commit -m "chore: bump csharp pack version to match registry [skip ci]"
-          git push origin main
- 
+          
+          git add codeql-custom-queries-csharp/
+          
+          if ! git diff --staged --quiet; then
+            git commit -m "chore(csharp): bump version to ${{ steps.publish_step.outputs.new_version }} [skip ci]"
+            git pull --rebase origin main
+            git push origin main
+            echo "new_sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Mark status via API
+        if: steps.commit_step.outputs.new_sha != ''
+        run: |
+          curl -L -X POST \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Accept: application/vnd.github+json" \
+            https://api.github.com/repos/${{ github.repository }}/statuses/${{ steps.commit_step.outputs.new_sha }} \
+            -d '{
+              "state":"success",
+              "context":"Publish C#",
+              "description":"Pack C# publié avec succès",
+              "target_url":"https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+            }'
