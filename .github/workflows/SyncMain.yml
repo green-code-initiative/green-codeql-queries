@@ -95,7 +95,7 @@ jobs:
           if git diff --staged --quiet; then
             echo "Rien à synchroniser (aucune modification détectée)."
           else
-            echo "chore: sync and flatten queries [skip ci]" > commit_msg.txt
+            echo "chore: sync and flatten queries" > commit_msg.txt
             if [ -n "$AUTHORS" ]; then
               echo "" >> commit_msg.txt
               echo "$AUTHORS" >> commit_msg.txt
