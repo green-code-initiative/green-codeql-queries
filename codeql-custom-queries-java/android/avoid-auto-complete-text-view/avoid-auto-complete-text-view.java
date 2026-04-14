@@ -1,7 +1,5 @@
 // Stub classes to avoid redeclaration conflicts
 
-package android.widget;
-
 class AutoCompleteTextView {
     public AutoCompleteTextView() {}
 }
