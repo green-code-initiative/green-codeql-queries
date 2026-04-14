@@ -3,7 +3,7 @@ name: "Sync Queries to Main"
 on:
   workflow_dispatch: 
   workflow_run:
-    workflows: ["Run CodeQL Unit Tests"]
+    workflows: ["Run CodeQL Unit Tests"] # Vérifiez que ce nom correspond exactement au workflow de test
     types:
       - completed
     branches:
@@ -11,17 +11,19 @@ on:
 
 jobs:
   sync-on-success:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    # Déclenchement si succès du workflow de test OU lancement manuel
+    if: |
+      github.event_name == 'workflow_dispatch' || 
+      (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success')
     runs-on: ubuntu-latest
     permissions:
       contents: write
 
     steps:
-      - name: Checkout Source Branch (test)
+      - name: Checkout Repository
         uses: actions/checkout@v4
         with:
-          ref: test
-          fetch-depth: 0
+          fetch-depth: 0 # Crucial pour avoir l'historique des deux branches
 
       - name: Configure Git
         run: |
@@ -30,61 +32,73 @@ jobs:
 
       - name: Sync, Extract and Push
         run: |
-          # 1. Préparation de la structure (Identique)
-          mkdir -p /tmp/sync_root
-          FILES=$(find codeql-custom-queries-* -name "*.ql" || true)
+          # 1. Identifier le point de départ pour les auteurs (SHA)
+          git fetch origin main test
+          git checkout main
+          
+          if [ -f ".last_sync" ]; then
+            LAST_SHA=$(cat .last_sync)
+            echo "Dernier commit synchronisé trouvé : $LAST_SHA"
+          else
+            # Si première synchro, on remonte au tout premier commit du repo
+            LAST_SHA=$(git rev-list --max-parents=0 HEAD)
+            echo "Aucune synchro précédente, départ de l'origine."
+          fi
 
+          # 2. Préparation de la nouvelle structure depuis la branche test
+          git checkout test
+          mkdir -p /tmp/sync_root
+          
+          # On capture le SHA actuel de test pour la prochaine fois
+          CURRENT_TEST_SHA=$(git rev-parse HEAD)
+
+          FILES=$(find codeql-custom-queries-* -name "*.ql" || true)
           for file in $FILES; do
             if [ -f "$file" ]; then
               PACK_NAME=$(echo "$file" | cut -d/ -f1)
               LANG=$(echo "$PACK_NAME" | sed 's/codeql-custom-queries-//')
               CATEGORY=$(echo "$file" | cut -d/ -f2)
               FILENAME=$(basename "$file")
+              
+              # Destination : langage/categorie/nom.ql
               FINAL_PATH="codeql-custom-queries-$LANG/$CATEGORY/$FILENAME"
+              
               mkdir -p "/tmp/sync_root/$(dirname "$FINAL_PATH")"
               cp "$file" "/tmp/sync_root/$FINAL_PATH"
             fi
           done
 
-          # 2. RÉCUPÉRATION DU DERNIER VRAI AUTEUR
-          # --no-merges : Ignore les commits de fusion
-          # -1 : Prend uniquement le premier résultat trouvé (le plus récent)
-          LAST_REAL_AUTHOR=$(git log -1 --no-merges --format='%an|%ae' HEAD)
-          
-          if [ -z "$LAST_REAL_AUTHOR" ]; then
-            echo "Aucun commit réel trouvé, abandon de l'extraction de l'auteur."
-            CO_AUTHOR=""
-          else
-            A_NAME=$(echo "$LAST_REAL_AUTHOR" | cut -d'|' -f1)
-            A_EMAIL=$(echo "$LAST_REAL_AUTHOR" | cut -d'|' -f2)
-            
-            # Exclusion du bot si c'est lui qui a fait le dernier commit réel
-            if [[ "$A_NAME" == *"github-actions"* ]]; then
-              CO_AUTHOR=""
-            else
-              CO_AUTHOR="Co-authored-by: $A_NAME <$A_EMAIL>"
-            fi
-          fi
+          # 3. Récupération des auteurs entre LAST_SHA et le HEAD actuel de test
+          # On filtre par nom unique pour éviter les doublons d'emails
+          AUTHORS=$(git log ${LAST_SHA}..HEAD --format='%an|%ae' | \
+                    sort -t'|' -k1,1 -u | \
+                    awk -F'|' '{printf "Co-authored-by: %s <%s>\n", $1, $2}' | \
+                    grep -v "github-actions" || true)
 
-          # 3. Basculement sur main
+          # 4. Application sur Main
           git checkout main
           git pull origin main
 
-          # 4. Nettoyage et injection
+          # Nettoyage des anciens fichiers .ql pour gérer les suppressions
           find codeql-custom-queries-* -name "*.ql" -delete || true
+          
+          # Injection de la nouvelle structure
           if [ -d "/tmp/sync_root" ] && [ "$(ls -A /tmp/sync_root)" ]; then
             cp -rv /tmp/sync_root/* .
           fi
 
+          # Sauvegarde du nouveau SHA de référence
+          echo "$CURRENT_TEST_SHA" > .last_sync
+
           # 5. Commit et Push
           git add .
           if git diff --staged --quiet; then
-            echo "Aucun changement réel détecté."
+            echo "Rien à synchroniser (aucune modification détectée)."
           else
-            echo "chore: sync and flatten queries" > commit_msg.txt
-            if [ -n "$CO_AUTHOR" ]; then
+            echo "chore: sync and flatten queries [skip ci]" > commit_msg.txt
+            if [ -n "$AUTHORS" ]; then
               echo "" >> commit_msg.txt
-              echo "$CO_AUTHOR" >> commit_msg.txt
+              echo "$AUTHORS" >> commit_msg.txt
             fi
             
             git commit -F commit_msg.txt
