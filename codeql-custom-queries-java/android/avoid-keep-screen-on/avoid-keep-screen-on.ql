@@ -7,6 +7,7 @@
  * @link https://green-code-initiative.org/rules#id:GCI505
  * @link https://green-code-initiative.org/rules#id:GCI506
  * @tags android
+ * @tags java
  */
 
 import java
@@ -15,6 +16,7 @@ import semmle.code.xml.XML
 predicate screenOnUsage(File f, string msg, Location loc) {
   exists(FieldAccess fa, Field field |
     field.hasName("FLAG_KEEP_SCREEN_ON") and
+    field.getDeclaringType().getAnAncestor().getName() = "LayoutParams" and
     fa.getField() = field and
     loc = fa.getLocation() and
     f = loc.getFile() and
