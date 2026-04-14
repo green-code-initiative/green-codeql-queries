@@ -1,8 +1,8 @@
 /**
  * @name Missing power save mode awareness
  * @description Taking into account when the device is entering or exiting the power save mode is higly desirable for the battery life. It implies the existence of a broadcast receiver registered on the action ACTION_POWER_SAVE_MODE_CHANGED, or programmaticaly with a call to PowerManager#isPowerSaveMode().
- * @kind recommendation
- * @problem.severity warning
+ * @kind problem
+ * @problem.severity recommendation
  * @precision high
  * @id java/android/missing-power-save-mode-awareness
  * @link https://github.com/cnumr/best-practices-mobile
