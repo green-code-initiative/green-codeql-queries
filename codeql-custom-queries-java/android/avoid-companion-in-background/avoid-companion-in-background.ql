@@ -12,9 +12,6 @@
 
 import java
 
-/**
- * A field access to `Manifest.permission.REQUEST_COMPANION_RUN_IN_BACKGROUND`.
- */
 class CompanionRunInBackgroundFieldAccess extends FieldAccess {
   CompanionRunInBackgroundFieldAccess() {
     this.getField().hasName("REQUEST_COMPANION_RUN_IN_BACKGROUND") and
@@ -23,10 +20,6 @@ class CompanionRunInBackgroundFieldAccess extends FieldAccess {
   }
 }
 
-/**
- * A string literal containing the Android permission
- * `"android.permission.REQUEST_COMPANION_RUN_IN_BACKGROUND"`.
- */
 class CompanionRunInBackgroundStringLiteral extends StringLiteral {
   CompanionRunInBackgroundStringLiteral() {
     this.getValue() = "android.permission.REQUEST_COMPANION_RUN_IN_BACKGROUND"
@@ -39,7 +32,6 @@ where
   or
   (
     usage instanceof CompanionRunInBackgroundStringLiteral and
-    // Exclude the constant definition itself inside the Manifest.permission stub class
     not exists(Field f |
       f.getInitializer() = usage and
       f.hasName("REQUEST_COMPANION_RUN_IN_BACKGROUND") and
