@@ -19,9 +19,16 @@ where
   not exists(MethodCall stopCall |
     stopCall.getEnclosingCallable() = startCall.getEnclosingCallable() and
     (
-      stopCall.getMethod().getName() = "stopService"
-      or
+      stopCall.getMethod().getName() = "stopService" or
       stopCall.getMethod().getName() = "stopSelf"
+    ) and
+    (
+      // stopSelf() sans qualifier (appelé sur this dans un Service)
+      not stopCall.getMethod().getName() = "stopService"
+      or
+      // même variable réceptrice que startService
+      stopCall.getQualifier().(VarAccess).getVariable() =
+        startCall.getQualifier().(VarAccess).getVariable()
     )
   )
 select startCall,
