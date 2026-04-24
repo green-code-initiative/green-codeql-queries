@@ -1,4 +1,4 @@
-# Submitting a Pull Request
+# Submitting a new green query
 
 Please point all pull request to the `test` branch. Ensure your contribution adheres to the following quality guidelines:
 
