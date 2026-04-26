@@ -1,11 +1,12 @@
 /**
- * @name Brightness Override
- * @description Setting WindowManager.LayoutParams#screenBrightness to BRIGHTNESS_OVERRIDE_FULL
- *              disables the adaptive brightness feature introduced in Android 9.
- *              Adaptive brightness adjusts screen brightness based on environment light
- *              to improve battery life. Overriding it is a very bad idea.
+ * @name Avoid Brightness Override
+ * @description Calling setBrightness() or directly setting screenBrightness
+ *              forces a fixed screen brightness, bypassing Android's adaptive
+ *              brightness feature (introduced in Android 9) which adjusts
+ *              brightness based on ambient light to improve battery life.
  * @kind problem
  * @problem.severity warning
+ * @link https://green-code-initiative.org/rules#id:GCI522
  * @id java/android/avoid-brightness-override
  * @tags android
  * @tags java
@@ -13,12 +14,27 @@
 
 import java
 
-from FieldWrite fw
-where
-  fw.getField().getName() = "screenBrightness" and
-  exists(FieldRead fr |
-    fr.getField().getName() = "BRIGHTNESS_OVERRIDE_FULL" and
-    fw.getEnclosingCallable() = fr.getEnclosingCallable()
+predicate isBrightnessSetterImpl(Method m) {
+  exists(FieldWrite fw |
+    fw.getField().getName() = "screenBrightness" and
+      fw.getField().getDeclaringType().getName() = "LayoutParams" and
+    fw.getEnclosingCallable() = m
   )
-select fw,
-  "Avoid setting screenBrightness to BRIGHTNESS_OVERRIDE_FULL. This disables Android's adaptive brightness feature which was introduced to improve battery life."
+}
+
+predicate callsBrightnessSetter(MethodCall mc) {
+  isBrightnessSetterImpl(mc.getMethod())
+}
+
+predicate directBrightnessWrite(FieldWrite fw) {
+  fw.getField().getName() = "screenBrightness" and
+  fw.getField().getDeclaringType().getName() = "LayoutParams" and
+  not isBrightnessSetterImpl(fw.getEnclosingCallable())
+}
+
+from Expr e
+where
+    callsBrightnessSetter(e)
+  or
+    directBrightnessWrite(e) 
+select e + "Calling setBrightness() or directly setting screenBrightness forces a fixed screen brightness, bypassing Android's adaptive brightness feature (introduced in Android 9) which adjusts brightness based on ambient light to improve battery life."
