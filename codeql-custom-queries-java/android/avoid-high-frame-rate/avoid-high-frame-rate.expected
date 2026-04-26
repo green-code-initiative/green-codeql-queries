@@ -1,8 +1,12 @@
-| avoid-high-frame-rate.java:17:9:17:88 | setFrameRate(...) | Avoid setting frame rate above 60Hz (current value: 90.0f). Higher refresh rates increase energy consumption on the display. |
-| avoid-high-frame-rate.java:28:9:28:89 | setFrameRate(...) | Avoid setting frame rate above 60Hz (current value: 120.0f). Higher refresh rates increase energy consumption on the display. |
-| avoid-high-frame-rate.java:39:9:39:89 | setFrameRate(...) | Avoid setting frame rate above 60Hz (current value: 144.0f). Higher refresh rates increase energy consumption on the display. |
-| avoid-high-frame-rate.java:50:9:50:90 | setFrameRate(...) | Avoid setting frame rate above 60Hz (current value: 60.1f). Higher refresh rates increase energy consumption on the display. |
-| avoid-high-frame-rate.java:62:13:62:93 | setFrameRate(...) | Avoid setting frame rate above 60Hz (current value: 120.0f). Higher refresh rates increase energy consumption on the display. |
-| avoid-high-frame-rate.java:75:13:75:92 | setFrameRate(...) | Avoid setting frame rate above 60Hz (current value: 90.0f). Higher refresh rates increase energy consumption on the display. |
-| avoid-high-frame-rate.java:87:9:87:88 | setFrameRate(...) | Avoid setting frame rate above 60Hz (current value: 90.0f). Higher refresh rates increase energy consumption on the display. |
-| avoid-high-frame-rate.java:92:9:92:94 | setFrameRate(...) | Avoid setting frame rate above 60Hz (current value: 120.0f). Higher refresh rates increase energy consumption on the display. |
+| avoid-high-frame-rate.java:35:9:35:88 | setFrameRate(...) | Avoid setting frame rate above 60Hz (current value: 90.0f). Higher refresh rates increase energy consumption on the display. |
+| avoid-high-frame-rate.java:42:9:42:89 | setFrameRate(...) | Avoid setting frame rate above 60Hz (current value: 120.0f). Higher refresh rates increase energy consumption on the display. |
+| avoid-high-frame-rate.java:49:9:49:89 | setFrameRate(...) | Avoid setting frame rate above 60Hz (current value: 144.0f). Higher refresh rates increase energy consumption on the display. |
+| avoid-high-frame-rate.java:56:9:56:90 | setFrameRate(...) | Avoid setting frame rate above 60Hz (current value: 60.1f). Higher refresh rates increase energy consumption on the display. |
+| avoid-high-frame-rate.java:64:13:64:93 | setFrameRate(...) | Avoid setting frame rate above 60Hz (current value: 120.0f). Higher refresh rates increase energy consumption on the display. |
+| avoid-high-frame-rate.java:73:13:73:92 | setFrameRate(...) | Avoid setting frame rate above 60Hz (current value: 90.0f). Higher refresh rates increase energy consumption on the display. |
+| avoid-high-frame-rate.java:81:9:81:88 | setFrameRate(...) | Avoid setting frame rate above 60Hz (current value: 90.0f). Higher refresh rates increase energy consumption on the display. |
+| avoid-high-frame-rate.java:85:9:85:94 | setFrameRate(...) | Avoid setting frame rate above 60Hz (current value: 120.0f). Higher refresh rates increase energy consumption on the display. |
+| avoid-high-frame-rate.java:96:9:96:44 | ...=... | Avoid setting preferredRefreshRate above 60Hz (current value: 120.0f). Higher refresh rates increase energy consumption on the display. |
+| avoid-high-frame-rate.java:104:9:104:43 | ...=... | Avoid setting preferredRefreshRate above 60Hz (current value: 90.0f). Higher refresh rates increase energy consumption on the display. |
+| avoid-high-frame-rate.java:112:9:112:43 | ...=... | Avoid setting preferredRefreshRate above 60Hz (current value: 60.1f). Higher refresh rates increase energy consumption on the display. |
+| avoid-high-frame-rate.java:121:13:121:48 | ...=... | Avoid setting preferredRefreshRate above 60Hz (current value: 120.0f). Higher refresh rates increase energy consumption on the display. |

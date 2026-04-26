@@ -1,3 +1,5 @@
+// Stubs en default package — getName() suffit pour le matching
+
 class Surface {
     void setFrameRate(float frameRate, int compatibility) {}
 }
@@ -7,55 +9,55 @@ class SurfaceCompatibility {
     static final int FRAME_RATE_COMPATIBILITY_FIXED_SOURCE = 1;
 }
 
-// ============================================================
-// 🚫 Noncompliant - frameRate set to 90f
-// ============================================================
-class NoncompliantFrameRate90 {
+class LayoutParams {
+    public float preferredRefreshRate;
+    public float screenBrightness;
+}
 
+class Window {
+    private LayoutParams attrs = new LayoutParams();
+    public LayoutParams getAttributes() { return attrs; }
+    public void setAttributes(LayoutParams p) { this.attrs = p; }
+}
+
+class Activity {
+    private Window w = new Window();
+    public Window getWindow() { return w; }
+}
+
+// ============================================================
+// CAS 1 — setFrameRate() > 60f -> DOIT etre flagge
+// ============================================================
+
+class NoncompliantFrameRate90 {
     void set90Hz() {
         Surface surface = new Surface();
         surface.setFrameRate(90f, SurfaceCompatibility.FRAME_RATE_COMPATIBILITY_DEFAULT); // $ Alert
     }
 }
 
-// ============================================================
-// 🚫 Noncompliant - frameRate set to 120f
-// ============================================================
 class NoncompliantFrameRate120 {
-
     void set120Hz() {
         Surface surface = new Surface();
         surface.setFrameRate(120f, SurfaceCompatibility.FRAME_RATE_COMPATIBILITY_DEFAULT); // $ Alert
     }
 }
 
-// ============================================================
-// 🚫 Noncompliant - frameRate set to 144f
-// ============================================================
 class NoncompliantFrameRate144 {
-
     void set144Hz() {
         Surface surface = new Surface();
         surface.setFrameRate(144f, SurfaceCompatibility.FRAME_RATE_COMPATIBILITY_DEFAULT); // $ Alert
     }
 }
 
-// ============================================================
-// 🚫 Noncompliant - frameRate set to 60.1f (just above limit)
-// ============================================================
 class NoncompliantFrameRateJustAbove {
-
     void setJustAbove60Hz() {
         Surface surface = new Surface();
         surface.setFrameRate(60.1f, SurfaceCompatibility.FRAME_RATE_COMPATIBILITY_DEFAULT); // $ Alert
     }
 }
 
-// ============================================================
-// 🚫 Noncompliant - high frame rate inside a condition
-// ============================================================
 class NoncompliantFrameRateInCondition {
-
     void setHighFrameRateIfSupported(boolean supported) {
         Surface surface = new Surface();
         if (supported) {
@@ -64,11 +66,7 @@ class NoncompliantFrameRateInCondition {
     }
 }
 
-// ============================================================
-// 🚫 Noncompliant - high frame rate inside a loop
-// ============================================================
 class NoncompliantFrameRateInLoop {
-
     void setHighFrameRateInLoop() {
         Surface surface = new Surface();
         for (int i = 0; i < 3; i++) {
@@ -77,16 +75,11 @@ class NoncompliantFrameRateInLoop {
     }
 }
 
-// ============================================================
-// 🚫 Noncompliant - multiple high frame rate calls
-// ============================================================
 class NoncompliantMultipleHighFrameRates {
-
     void setHighFrameRateFirst() {
         Surface surface = new Surface();
         surface.setFrameRate(90f, SurfaceCompatibility.FRAME_RATE_COMPATIBILITY_DEFAULT); // $ Alert
     }
-
     void setHighFrameRateSecond() {
         Surface surface = new Surface();
         surface.setFrameRate(120f, SurfaceCompatibility.FRAME_RATE_COMPATIBILITY_FIXED_SOURCE); // $ Alert
@@ -94,32 +87,62 @@ class NoncompliantMultipleHighFrameRates {
 }
 
 // ============================================================
-// ✅ Compliant - frameRate set to 60f (limit)
+// CAS 2 — preferredRefreshRate > 60f -> DOIT etre flagge
 // ============================================================
-class CompliantFrameRate60 {
 
+class NoncompliantPreferredRefreshRate120 extends Activity {
+    void setHighRefreshRate() {
+        LayoutParams params = getWindow().getAttributes();
+        params.preferredRefreshRate = 120.0f; // $ Alert
+        getWindow().setAttributes(params);
+    }
+}
+
+class NoncompliantPreferredRefreshRate90 extends Activity {
+    void setHighRefreshRate() {
+        LayoutParams params = getWindow().getAttributes();
+        params.preferredRefreshRate = 90.0f; // $ Alert
+        getWindow().setAttributes(params);
+    }
+}
+
+class NoncompliantPreferredRefreshRateJustAbove extends Activity {
+    void setJustAbove() {
+        LayoutParams params = getWindow().getAttributes();
+        params.preferredRefreshRate = 60.1f; // $ Alert
+        getWindow().setAttributes(params);
+    }
+}
+
+class NoncompliantPreferredRefreshRateInCondition extends Activity {
+    void setConditionally(boolean supported) {
+        if (supported) {
+            LayoutParams params = getWindow().getAttributes();
+            params.preferredRefreshRate = 120.0f; // $ Alert
+            getWindow().setAttributes(params);
+        }
+    }
+}
+
+// ============================================================
+// CAS 3 — setFrameRate() <= 60f -> NE DOIT PAS etre flagge
+// ============================================================
+
+class CompliantFrameRate60 {
     void set60Hz() {
         Surface surface = new Surface();
         surface.setFrameRate(60f, SurfaceCompatibility.FRAME_RATE_COMPATIBILITY_DEFAULT); // OK
     }
 }
 
-// ============================================================
-// ✅ Compliant - frameRate set to 30f
-// ============================================================
 class CompliantFrameRate30 {
-
     void set30Hz() {
         Surface surface = new Surface();
         surface.setFrameRate(30f, SurfaceCompatibility.FRAME_RATE_COMPATIBILITY_DEFAULT); // OK
     }
 }
 
-// ============================================================
-// ✅ Compliant - frameRate set to 24f (cinema standard)
-// ============================================================
 class CompliantFrameRate24 {
-
     void set24Hz() {
         Surface surface = new Surface();
         surface.setFrameRate(24f, SurfaceCompatibility.FRAME_RATE_COMPATIBILITY_FIXED_SOURCE); // OK
@@ -127,10 +150,43 @@ class CompliantFrameRate24 {
 }
 
 // ============================================================
-// ✅ Compliant - no setFrameRate call at all
+// CAS 4 — preferredRefreshRate <= 60f -> NE DOIT PAS etre flagge
 // ============================================================
-class CompliantNoFrameRate {
 
+class CompliantPreferredRefreshRate60 extends Activity {
+    void set60Hz() {
+        LayoutParams params = getWindow().getAttributes();
+        params.preferredRefreshRate = 60.0f; // OK
+        getWindow().setAttributes(params);
+    }
+}
+
+class CompliantPreferredRefreshRate30 extends Activity {
+    void set30Hz() {
+        LayoutParams params = getWindow().getAttributes();
+        params.preferredRefreshRate = 30.0f; // OK
+        getWindow().setAttributes(params);
+    }
+}
+
+// ============================================================
+// CAS 5 — Ecriture sur screenBrightness (autre champ)
+//          -> NE DOIT PAS etre flagge
+// ============================================================
+
+class CompliantOtherField extends Activity {
+    void setBrightness() {
+        LayoutParams params = getWindow().getAttributes();
+        params.screenBrightness = 0.75f; // OK — autre champ, pas de fps
+        getWindow().setAttributes(params);
+    }
+}
+
+// ============================================================
+// CAS 6 — Aucun appel lie au frame rate -> NE DOIT PAS etre flagge
+// ============================================================
+
+class CompliantNoFrameRate {
     void doSomethingElse() {
         int x = 42;
         String msg = "no frame rate here";
