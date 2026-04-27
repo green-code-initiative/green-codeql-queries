@@ -1,9 +1,11 @@
 name: "Sync Queries to Main"
 
 on:
-  workflow_dispatch: 
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * *' # S'exécute tous les soirs à minuit UTC
   workflow_run:
-    workflows: ["Run CodeQL Unit Tests"] # Vérifiez que ce nom correspond exactement au workflow de test
+    workflows: ["Run CodeQL Unit Tests"]
     types:
       - completed
     branches:
@@ -11,9 +13,9 @@ on:
 
 jobs:
   sync-on-success:
-    # Déclenchement si succès du workflow de test OU lancement manuel
     if: |
       github.event_name == 'workflow_dispatch' || 
+      github.event_name == 'schedule' ||
       (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success')
     runs-on: ubuntu-latest
     permissions:
@@ -23,7 +25,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0 # Crucial pour avoir l'historique des deux branches
+          fetch-depth: 0 
 
       - name: Configure Git
         run: |
@@ -32,24 +34,19 @@ jobs:
 
       - name: Sync, Extract and Push
         run: |
-          # 1. Identifier le point de départ pour les auteurs (SHA)
+          # 1. Identifier le point de départ
           git fetch origin main test
           git checkout main
           
           if [ -f ".last_sync" ]; then
             LAST_SHA=$(cat .last_sync)
-            echo "Dernier commit synchronisé trouvé : $LAST_SHA"
           else
-            # Si première synchro, on remonte au tout premier commit du repo
-            LAST_SHA=$(git rev-list --max-parents=0 HEAD)
-            echo "Aucune synchro précédente, départ de l'origine."
+            LAST_SHA=$(git rev-list --max-parents=0 HEAD | tail -n 1)
           fi
 
-          # 2. Préparation de la nouvelle structure depuis la branche test
+          # 2. Préparation de la structure
           git checkout test
           mkdir -p /tmp/sync_root
-          
-          # On capture le SHA actuel de test pour la prochaine fois
           CURRENT_TEST_SHA=$(git rev-parse HEAD)
 
           FILES=$(find codeql-custom-queries-* -name "*.ql" || true)
@@ -59,19 +56,15 @@ jobs:
               LANG=$(echo "$PACK_NAME" | sed 's/codeql-custom-queries-//')
               CATEGORY=$(echo "$file" | cut -d/ -f2)
               FILENAME=$(basename "$file")
-              
-              # Destination : langage/categorie/nom.ql
               FINAL_PATH="codeql-custom-queries-$LANG/$CATEGORY/$FILENAME"
-              
               mkdir -p "/tmp/sync_root/$(dirname "$FINAL_PATH")"
               cp "$file" "/tmp/sync_root/$FINAL_PATH"
             fi
           done
 
-          # 3. Récupération des auteurs entre LAST_SHA et le HEAD actuel de test
-          # On filtre par nom unique pour éviter les doublons d'emails
+          # 3. Récupération des auteurs
           AUTHORS=$(git log ${LAST_SHA}..HEAD --format='%an|%ae' | \
-                    sort -t'|' -k1,1 -u | \
+                    sort -u | \
                     awk -F'|' '{printf "Co-authored-by: %s <%s>\n", $1, $2}' | \
                     grep -v "github-actions" || true)
 
@@ -79,18 +72,14 @@ jobs:
           git checkout main
           git pull origin main
 
-          # Nettoyage des anciens fichiers .ql pour gérer les suppressions
           find codeql-custom-queries-* -name "*.ql" -delete || true
-          
-          # Injection de la nouvelle structure
           if [ -d "/tmp/sync_root" ] && [ "$(ls -A /tmp/sync_root)" ]; then
             cp -rv /tmp/sync_root/* .
           fi
 
-          # Sauvegarde du nouveau SHA de référence
           echo "$CURRENT_TEST_SHA" > .last_sync
 
-          # 5. Commit et Push
+          # 5. Commit et Push (Sécurité anti-vide)
           git add .
           if git diff --staged --quiet; then
             echo "Rien à synchroniser (aucune modification détectée)."
@@ -100,7 +89,6 @@ jobs:
               echo "" >> commit_msg.txt
               echo "$AUTHORS" >> commit_msg.txt
             fi
-            
             git commit -F commit_msg.txt
             git push origin main
           fi
