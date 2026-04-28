@@ -13,11 +13,21 @@
 
 import java
 
-from MethodCall mc, FloatLiteral frameRate
+from Expr e, FloatLiteral rate, string msg
 where
-  mc.getMethod().getName() = "setFrameRate" and
-  frameRate = mc.getArgument(0) and
-  frameRate.getValue().toFloat() > 60.0
-select mc,
-  "Avoid setting frame rate above 60Hz (current value: " + frameRate.getValue() +
-  "f). Higher refresh rates increase energy consumption on the display."
+  (
+    e.(MethodCall).getMethod().getName() = "setFrameRate" and
+    rate = e.(MethodCall).getArgument(0) and
+    rate.getFloatValue() > 60.0 and
+    msg = "Avoid setting frame rate above 60Hz (current value: " + rate.getValue() +
+          "f). Higher refresh rates increase energy consumption on the display."
+  )
+  or
+  (
+    e.(AssignExpr).getSource().getUnderlyingExpr() = rate and
+    rate.getFloatValue() > 60.0 and
+    e.(AssignExpr).getDest().toString().matches("%preferredRefreshRate%") and
+    msg = "Avoid setting preferredRefreshRate above 60Hz (current value: " + rate.getValue() +
+          "f). Higher refresh rates increase energy consumption on the display."
+  )
+select e, msg
