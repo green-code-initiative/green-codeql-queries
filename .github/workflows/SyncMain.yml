@@ -3,7 +3,7 @@ name: "Sync Queries to Main"
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 0 * * *' # S'exécute tous les soirs à minuit UTC
+    - cron: '0 0 * * *'
   workflow_run:
     workflows: ["Run CodeQL Unit Tests"]
     types:
@@ -12,7 +12,7 @@ on:
       - 'test'
 
 jobs:
-  sync-on-success:
+  sync:
     if: |
       github.event_name == 'workflow_dispatch' || 
       github.event_name == 'schedule' ||
@@ -54,9 +54,17 @@ jobs:
             if [ -f "$file" ]; then
               PACK_NAME=$(echo "$file" | cut -d/ -f1)
               LANG=$(echo "$PACK_NAME" | sed 's/codeql-custom-queries-//')
-              CATEGORY=$(echo "$file" | cut -d/ -f2)
               FILENAME=$(basename "$file")
-              FINAL_PATH="codeql-custom-queries-$LANG/$CATEGORY/$FILENAME"
+              
+              if [ "$LANG" = "actions" ]; then
+                # Cas particulier Actions : direct dans le dossier du pack
+                FINAL_PATH="codeql-custom-queries-$LANG/$FILENAME"
+              else
+                # Cas général : langage/categorie/nom.ql
+                CATEGORY=$(echo "$file" | cut -d/ -f2)
+                FINAL_PATH="codeql-custom-queries-$LANG/$CATEGORY/$FILENAME"
+              fi
+              
               mkdir -p "/tmp/sync_root/$(dirname "$FINAL_PATH")"
               cp "$file" "/tmp/sync_root/$FINAL_PATH"
             fi
@@ -72,23 +80,22 @@ jobs:
           git checkout main
           git pull origin main
 
+          # Nettoyage sélectif des fichiers .ql (on garde les .yml et .lock)
           find codeql-custom-queries-* -name "*.ql" -delete || true
+          
           if [ -d "/tmp/sync_root" ] && [ "$(ls -A /tmp/sync_root)" ]; then
             cp -rv /tmp/sync_root/* .
           fi
 
           echo "$CURRENT_TEST_SHA" > .last_sync
 
-          # 5. Commit et Push (Sécurité anti-vide)
+          # 5. Commit et Push
           git add .
           if git diff --staged --quiet; then
-            echo "Rien à synchroniser (aucune modification détectée)."
+            echo "Rien à synchroniser."
           else
             echo "chore: sync and flatten queries" > commit_msg.txt
-            if [ -n "$AUTHORS" ]; then
-              echo "" >> commit_msg.txt
-              echo "$AUTHORS" >> commit_msg.txt
-            fi
+            [ -n "$AUTHORS" ] && echo -e "\n$AUTHORS" >> commit_msg.txt
             git commit -F commit_msg.txt
             git push origin main
           fi
