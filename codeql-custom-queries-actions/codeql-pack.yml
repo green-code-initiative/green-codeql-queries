@@ -1,7 +1,7 @@
 ---
 library: false
 name: green-code-initiative/actions-queries
-version: 1.0.8
+version: 1.0.9
 extractor: actions
 groups: yaml
 dependencies:
