@@ -1,7 +1,7 @@
 ---
 library: false
 name: green-code-initiative/csharp-queries
-version: 1.0.7
+version: 1.0.8
 extractor: csharp
 groups: csharp
 dependencies:
