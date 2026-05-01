@@ -2,7 +2,6 @@ name: "Python - Publish CodeQL Pack"
 
 on:
   workflow_dispatch:
-  # Déclenchement automatique à la fin de la synchronisation
   workflow_run:
     workflows: ["Sync Queries to Main"]
     types:
@@ -12,7 +11,6 @@ jobs:
   publish:
     name: Publish Python Pack
     runs-on: ubuntu-latest
-    # On vérifie le succès du workflow de synchro ou le déclenchement manuel
     if: |
       github.event_name == 'workflow_dispatch' || 
       (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success')
@@ -28,14 +26,33 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Check for changes in Python directory
+        id: filter
+        run: |
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            echo "changed=true" >> $GITHUB_OUTPUT
+          else
+            # Vérifie les changements dans le dossier Python
+            if git diff --quiet HEAD^ HEAD -- codeql-custom-queries-python/; then
+              echo "Aucun changement détecté dans codeql-custom-queries-python."
+              echo "changed=false" >> $GITHUB_OUTPUT
+            else
+              echo "Changements détectés dans le pack Python."
+              echo "changed=true" >> $GITHUB_OUTPUT
+            fi
+          fi
+
       - name: Install CodeQL CLI
+        if: steps.filter.outputs.changed == 'true'
         id: install-codeql
         uses: github/codeql-action/setup-codeql@v4
 
       - name: Setup CodeQL Path
+        if: steps.filter.outputs.changed == 'true'
         run: echo "$(dirname ${{ steps.install-codeql.outputs.codeql-path }})" >> $GITHUB_PATH
 
       - name: Validate and Publish
+        if: steps.filter.outputs.changed == 'true'
         id: publish_step
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -45,11 +62,9 @@ jobs:
           echo "Installation des dépendances..."
           codeql pack install
           
-          # 1. Détection du fichier de pack
           PACK_FILE=$(ls qlpack.yml 2>/dev/null || ls codeql-pack.yml 2>/dev/null)
           if [ -z "$PACK_FILE" ]; then echo "Pack file not found"; exit 1; fi
           
-          # 2. Récupération de la version actuelle
           OWNER="green-code-initiative"
           PACKAGE_NAME="python-queries"
           
@@ -74,23 +89,23 @@ jobs:
           echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
 
       - name: Commit version update
+        if: steps.filter.outputs.changed == 'true'
         id: commit_step
         run: |
-          git config --local user.email "github-actions[bot]@users.noreply.noreply.github.com"
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           
           git add codeql-custom-queries-python/
           
           if ! git diff --staged --quiet; then
             git commit -m "chore(python): bump version to ${{ steps.publish_step.outputs.new_version }} [skip ci]"
-            # Rebase pour gérer les pushes simultanés des autres packs
             git pull --rebase origin main
             git push origin main
             echo "new_sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
           fi
 
       - name: Mark status via API
-        if: steps.commit_step.outputs.new_sha != ''
+        if: steps.filter.outputs.changed == 'true' && steps.commit_step.outputs.new_sha != ''
         run: |
           curl -L -X POST \
             -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \

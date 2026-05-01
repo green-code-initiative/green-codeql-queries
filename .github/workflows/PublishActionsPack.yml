@@ -11,6 +11,7 @@ jobs:
   publish:
     name: Publish Actions Pack
     runs-on: ubuntu-latest
+    # On garde la condition de succès pour workflow_run
     if: |
       github.event_name == 'workflow_dispatch' || 
       (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success')
@@ -24,29 +25,48 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          fetch-depth: 0 # Nécessaire pour comparer les commits
+
+      - name: Check for changes in target directory
+        id: filter
+        run: |
+          # Si c'est un déclenchement manuel, on force l'exécution
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            echo "changed=true" >> $GITHUB_OUTPUT
+          else
+            # On compare le commit actuel avec le précédent (HEAD^)
+            # On filtre sur le dossier spécifique
+            if git diff --quiet HEAD^ HEAD -- codeql-custom-queries-actions/; then
+              echo "Aucun changement détecté dans codeql-custom-queries-actions."
+              echo "changed=false" >> $GITHUB_OUTPUT
+            else
+              echo "Changements détectés."
+              echo "changed=true" >> $GITHUB_OUTPUT
+            fi
+          fi
+
       - name: Install CodeQL CLI
+        if: steps.filter.outputs.changed == 'true'
         id: install-codeql
         uses: github/codeql-action/setup-codeql@v4
 
       - name: Setup CodeQL Path
+        if: steps.filter.outputs.changed == 'true'
         run: echo "$(dirname ${{ steps.install-codeql.outputs.codeql-path }})" >> $GITHUB_PATH
 
       - name: Validate and Publish
+        if: steps.filter.outputs.changed == 'true'
         id: publish_step
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           cd codeql-custom-queries-actions
-          
           echo "Installation des dépendances et vérification..."
           codeql pack install
           
-          # 1. Détection du fichier de pack
           PACK_FILE=$(ls qlpack.yml 2>/dev/null || ls codeql-pack.yml 2>/dev/null)
           if [ -z "$PACK_FILE" ]; then echo "Pack file not found"; exit 1; fi
           
-          # 2. Récupération de la version actuelle
           OWNER="green-code-initiative"
           PACKAGE_NAME="actions-queries"
           
@@ -71,6 +91,7 @@ jobs:
           echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
 
       - name: Commit version update
+        if: steps.filter.outputs.changed == 'true'
         id: commit_step
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
@@ -86,7 +107,7 @@ jobs:
           fi
 
       - name: Mark status via API
-        if: steps.commit_step.outputs.new_sha != ''
+        if: steps.filter.outputs.changed == 'true' && steps.commit_step.outputs.new_sha != ''
         run: |
           curl -L -X POST \
             -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \

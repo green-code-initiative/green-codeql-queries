@@ -2,7 +2,6 @@ name: "JS - Publish CodeQL Pack"
 
 on:
   workflow_dispatch:
-  # Déclenchement automatique après la synchronisation
   workflow_run:
     workflows: ["Sync Queries to Main"]
     types:
@@ -12,7 +11,6 @@ jobs:
   publish:
     name: Publish JS Pack
     runs-on: ubuntu-latest
-    # Exécution si succès de la synchro ou lancement manuel
     if: |
       github.event_name == 'workflow_dispatch' || 
       (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success')
@@ -28,14 +26,33 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Check for changes in JS directory
+        id: filter
+        run: |
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            echo "changed=true" >> $GITHUB_OUTPUT
+          else
+            # Vérifie les changements dans le dossier JS entre le dernier commit et le précédent
+            if git diff --quiet HEAD^ HEAD -- codeql-custom-queries-javascript/; then
+              echo "Aucun changement détecté dans codeql-custom-queries-javascript."
+              echo "changed=false" >> $GITHUB_OUTPUT
+            else
+              echo "Changements détectés dans le pack JavaScript."
+              echo "changed=true" >> $GITHUB_OUTPUT
+            fi
+          fi
+
       - name: Install CodeQL CLI
+        if: steps.filter.outputs.changed == 'true'
         id: install-codeql
         uses: github/codeql-action/setup-codeql@v4
 
       - name: Setup CodeQL Path
+        if: steps.filter.outputs.changed == 'true'
         run: echo "$(dirname ${{ steps.install-codeql.outputs.codeql-path }})" >> $GITHUB_PATH
 
       - name: Validate and Publish
+        if: steps.filter.outputs.changed == 'true'
         id: publish_step
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -45,11 +62,9 @@ jobs:
           echo "Installation des dépendances..."
           codeql pack install
           
-          # 1. Détection du fichier de pack
           PACK_FILE=$(ls qlpack.yml 2>/dev/null || ls codeql-pack.yml 2>/dev/null)
           if [ -z "$PACK_FILE" ]; then echo "Pack file not found"; exit 1; fi
           
-          # 2. Gestion de la version sur GHCR
           OWNER="green-code-initiative"
           PACKAGE_NAME="javascript-queries"
           
@@ -74,6 +89,7 @@ jobs:
           echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
 
       - name: Commit version update
+        if: steps.filter.outputs.changed == 'true'
         id: commit_step
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
@@ -83,14 +99,13 @@ jobs:
           
           if ! git diff --staged --quiet; then
             git commit -m "chore(javascript): bump version to ${{ steps.publish_step.outputs.new_version }} [skip ci]"
-            # Gestion de la concurrence par rebase
             git pull --rebase origin main
             git push origin main
             echo "new_sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
           fi
 
       - name: Mark status via API
-        if: steps.commit_step.outputs.new_sha != ''
+        if: steps.filter.outputs.changed == 'true' && steps.commit_step.outputs.new_sha != ''
         run: |
           curl -L -X POST \
             -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
