@@ -8,6 +8,7 @@
  * @id js/web-api/avoid-media-autoplay
  * @tags web-api
  * @tags server
+ * @tags js
  */
 
 import javascript
