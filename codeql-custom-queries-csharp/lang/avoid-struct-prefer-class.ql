@@ -6,6 +6,7 @@
  * @precision high
  * @id csharp/lang/prefer-class-over-struct
  * @tags lang
+ * @tags csharp
  */
 
 import csharp
