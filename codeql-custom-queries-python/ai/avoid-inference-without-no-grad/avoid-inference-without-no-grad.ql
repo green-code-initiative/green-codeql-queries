@@ -7,6 +7,7 @@
  * @id python/ai/avoid-inference-without-no-grad
  * @link https://green-code-initiative.org/rules#id:GCI100
  * @tags ai
+ * @tags python
  */
 
 import python
