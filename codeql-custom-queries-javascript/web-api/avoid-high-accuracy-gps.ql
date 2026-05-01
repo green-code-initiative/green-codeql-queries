@@ -6,7 +6,7 @@
  * @precision high
  * @id js/web-api/avoid-high-accuracy-gps
  * @tags web-api
- *       client
+ * @tags javascript
  */
 
 import javascript
