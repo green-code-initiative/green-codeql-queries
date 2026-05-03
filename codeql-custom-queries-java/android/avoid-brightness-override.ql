@@ -6,6 +6,7 @@
  *              brightness based on ambient light to improve battery life.
  * @kind problem
  * @problem.severity warning
+ * @precision high
  * @link https://green-code-initiative.org/rules#id:GCI522
  * @id java/android/avoid-brightness-override
  * @tags android
