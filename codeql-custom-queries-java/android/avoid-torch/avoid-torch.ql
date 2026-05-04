@@ -4,6 +4,7 @@
  *              should be avoided as the torch will drain the battery unnecessarily.
  * @kind problem
  * @problem.severity warning
+ * @precision high
  * @id java/android/avoid-torch
  * @link https://green-code-initiative.org/rules#id:GCI530
  * @tags android

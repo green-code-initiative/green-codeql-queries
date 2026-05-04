@@ -6,6 +6,7 @@
  *              VIBRATOR_SERVICE (API 26) or VIBRATOR_MANAGER_SERVICE (API 31).
  * @kind problem
  * @problem.severity warning
+ * @precision high
  * @id java/android/avoid-vibration
  * @link https://green-code-initiative.org/rules#id:GCI528
  * @tags android

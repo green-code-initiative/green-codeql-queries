@@ -4,6 +4,7 @@
  *              on the EEPROM cells (limited to ~100k cycles).
  * @kind problem
  * @problem.severity warning
+ * @precision high
  * @id cpp/arduino/prevent-eeprom-killer
  * @tags efficiency
  * @tags sustainability

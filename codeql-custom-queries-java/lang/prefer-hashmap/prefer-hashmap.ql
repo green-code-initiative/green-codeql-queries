@@ -3,6 +3,7 @@
  * @description Detects instantiations of TreeMap or LinkedHashMap where a HashMap could suffice.
  * @kind problem
  * @problem.severity warning
+ * @precision high
  * @id java/lang/prefer-hashmap
  * @tags java
  * @tags lang

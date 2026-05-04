@@ -3,6 +3,7 @@
  * @description Detects if an HTTP call (getInputStream or getResponseCode) is not directly associated with UncachedDataCache.install() in the same method.
  * @kind problem
  * @problem.severity warning
+ * @precision high
  * @id java/android/avoid-uncached-data-reception
  * @tags android
  * @tags java
