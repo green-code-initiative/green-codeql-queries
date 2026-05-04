@@ -38,4 +38,4 @@ where
     callsBrightnessSetter(e)
   or
     directBrightnessWrite(e) 
-select e + "Calling setBrightness() or directly setting screenBrightness forces a fixed screen brightness, bypassing Android's adaptive brightness feature (introduced in Android 9) which adjusts brightness based on ambient light to improve battery life."
+select e, "Calling setBrightness() or directly setting screenBrightness forces a fixed screen brightness, bypassing Android's adaptive brightness feature (introduced in Android 9) which adjusts brightness based on ambient light to improve battery life."
