@@ -1,7 +1,7 @@
 ---
 library: false
 name: green-code-initiative/cpp-queries
-version: 1.0.7
+version: 1.0.8
 extractor: cpp
 groups: cpp
 dependencies:
