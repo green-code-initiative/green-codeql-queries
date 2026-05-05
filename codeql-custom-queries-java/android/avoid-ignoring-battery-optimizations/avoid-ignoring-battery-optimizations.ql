@@ -1,5 +1,5 @@
 /**
- * @name avoid ignoring  
+ * @name Avoid Ignoring Battery Optimizations
  * @description An app holding the Manifest.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS ask the user to allow it to ignore battery optimizations (that is, put them on the whitelist of apps). Most applications should not use this; there are many facilities provided by the platform for applications to operate correctly in the various power saving modes.
  * @kind problem
  * @problem.severity warning
