@@ -1,5 +1,5 @@
 /**
- * @name Extraneous Init
+ * @name Avoid Extraneous Init
  * @description Avoid initialising anything unnecessarily in the Application class onCreate() method.
  *              Unnecessary initialisation in Application#onCreate() increases app start-up latency
  *              and wastes energy. Many libraries offer on-demand initialisation — call them only
