@@ -7,6 +7,7 @@
  *              consumption on (AM)OLED screens.
  * @kind problem
  * @problem.severity warning
+ * @precision high
  * @id java/android/avoid-day-night-mode
  * @tags android
  * @tags java

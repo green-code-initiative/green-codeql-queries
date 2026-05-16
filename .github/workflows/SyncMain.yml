@@ -1,8 +1,8 @@
-name: "Actions - Sync Queries to Main"
+name: "Sync Queries to Main"
 
 on:
   workflow_run:
-    workflows: ["Actions - Run CodeQL Unit Tests"]
+    workflows: ["Run CodeQL Unit Tests"]
     types:
       - completed
     branches:
@@ -14,6 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      actions: write
 
     steps:
       - name: Checkout Source Branch (test)

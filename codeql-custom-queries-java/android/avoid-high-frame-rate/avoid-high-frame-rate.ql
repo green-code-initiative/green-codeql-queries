@@ -5,6 +5,7 @@
  *              A regular app should not exceed 60 frames per second to optimize battery life.
  * @kind problem
  * @problem.severity warning
+ * @precision high
  * @id java/android/avoid-high-frame-rate
  * @link https://green-code-initiative.org/rules#id:GCI531
  * @tags android
