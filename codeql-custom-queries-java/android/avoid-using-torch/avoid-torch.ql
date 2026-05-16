@@ -1,5 +1,5 @@
 /**
- * @name Torch-free
+ * @name Avoid using Torch
  * @description Programmatically enabling torch mode with CameraManager#setTorchMode(..., true)
  *              should be avoided as the torch will drain the battery unnecessarily.
  * @kind problem
