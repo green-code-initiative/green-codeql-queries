@@ -32,7 +32,7 @@ class GoodSensorUsage {
     }
 }
 
-public class  AvoidRegisterListenerWithoutMrlu {
+class  AvoidRegisterListenerWithoutMrlu {
     public static void main(String[] args) {
         System.out.println("Compilation OK");
     }
