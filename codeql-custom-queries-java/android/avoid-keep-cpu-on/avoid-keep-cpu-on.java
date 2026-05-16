@@ -75,7 +75,7 @@ class BadRawIntWakeLock extends Activity {
     }
 }
 
-// NON-COMPLIANT — uses FLAG_KEEP_SCREEN_ON via Window.addFlags
+// NOT RELEVANT — FLAG_KEEP_SCREEN_ON is not covered by this rule
 class BadKeepScreenOnFlag extends Activity {
     void keepScreen() {
         Window w = new Window();
@@ -83,7 +83,7 @@ class BadKeepScreenOnFlag extends Activity {
     }
 }
 
-// NON-COMPLIANT — uses raw int 128 for FLAG_KEEP_SCREEN_ON via Window.addFlags
+// NOT RELEVANT — raw int 128 flag is not covered by this rule
 class BadKeepScreenOnRawInt extends Activity {
     void keepScreen() {
         Window w = new Window();
@@ -91,7 +91,7 @@ class BadKeepScreenOnRawInt extends Activity {
     }
 }
 
-// NON-COMPLIANT — uses View.setKeepScreenOn(true)
+// NOT RELEVANT — View.setKeepScreenOn is not covered by this rule
 class BadViewKeepScreenOn extends Activity {
     void keepScreen() {
         View v = new View(this);
@@ -107,7 +107,7 @@ class BadExternalWakeLock {
     }
 }
 
-// COMPLIANT — uses PARTIAL_WAKE_LOCK (CPU only, screen off)
+// NON-COMPLIANT — any WakeLock acquisition is flagged by this rule
 class GoodPartialWakeLock extends Activity {
     void doWork() {
         PowerManager pm = (PowerManager) getSystemService("power");
@@ -117,7 +117,7 @@ class GoodPartialWakeLock extends Activity {
     }
 }
 
-// COMPLIANT — uses PROXIMITY_SCREEN_OFF_WAKE_LOCK (turns screen off on proximity)
+// NON-COMPLIANT — any WakeLock acquisition is flagged by this rule
 class GoodProximityWakeLock extends Activity {
     void doWork() {
         PowerManager pm = (PowerManager) getSystemService("power");
@@ -126,7 +126,7 @@ class GoodProximityWakeLock extends Activity {
     }
 }
 
-// COMPLIANT — uses raw int value 1 (PARTIAL_WAKE_LOCK)
+// NON-COMPLIANT — any WakeLock acquisition is flagged by this rule
 class GoodRawIntPartial extends Activity {
     void doWork() {
         PowerManager pm = (PowerManager) getSystemService("power");
@@ -135,7 +135,7 @@ class GoodRawIntPartial extends Activity {
     }
 }
 
-// COMPLIANT — View.setKeepScreenOn(false) — disabling keep screen on
+// NOT RELEVANT — View.setKeepScreenOn(false) is not covered by this rule
 class GoodViewDisableKeepScreenOn extends Activity {
     void disableScreen() {
         View v = new View(this);
@@ -143,7 +143,7 @@ class GoodViewDisableKeepScreenOn extends Activity {
     }
 }
 
-// COMPLIANT — Window.clearFlags with FLAG_KEEP_SCREEN_ON (removing the flag)
+// NOT RELEVANT — Window.clearFlags is not covered by this rule
 class GoodClearKeepScreenOn extends Activity {
     void disableScreen() {
         Window w = new Window();
@@ -194,7 +194,7 @@ class UnrelatedSetKeepScreenOn {
     }
 }
 
-public class AvoidKeepCpuOn {
+class AvoidKeepCpuOn {
     public static void main(String[] args) {
         System.out.println("Compilation OK");
     }
