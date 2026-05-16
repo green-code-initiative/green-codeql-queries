@@ -1,5 +1,5 @@
 /**
- * @name Internet In The Loop
+ * @name Avoid Internet In The Loop
  * @description Opening and closing internet connections continuously is extremely battery-inefficient.
  *              Obtaining a new HttpURLConnection by calling URL#openConnection() within a loop
  *              control structure (while, for, do-while, for-each) is a bad practice that leads
