@@ -1,5 +1,5 @@
 /**
- * @name Hardware Acceleration
+ * @name Avoid Hardware Acceleration
  * @description Hardware acceleration for 2D rendering is enabled by default for API level >= 14.
  *              It increases RAM usage and resource consumption. It should be explicitly disabled
  *              at the application or activity level using android:hardwareAccelerated="false"

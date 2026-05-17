@@ -1,5 +1,5 @@
 /**
- * @name Vibration-free
+ * @name Avoid Vibration
  * @description Using the vibrator service consumes battery power through a dedicated
  *              hardware component (motor or actuator). Its usage must be discouraged
  *              since its added value is not clear. Avoid getSystemService() calls with

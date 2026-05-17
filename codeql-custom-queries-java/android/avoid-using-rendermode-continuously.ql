@@ -1,10 +1,10 @@
 /**
- * @name GLSurfaceView uses RENDERMODE_CONTINUOUSLY
+ * @name Avoid using RENDERMODE_CONTINUOUSLY
  * @description For developers wishing to display OpenGL rendering, when choosing the rendering mode with GLSurfaceView#setRenderMode(int renderMode), using RENDERMODE_WHEN_DIRTY instead of RENDERMODE_CONTINUOUSLY (By default) can improve battery life and overall system performance by allowing the GPU and CPU to idle when the view does not need to be updated.
  * @kind problem
  * @problem.severity warning
  * @precision high
- * @id java/android/avoid-rendermode-continuously
+ * @id java/android/avoid-using-rendermode-continuously
  * @link https://github.com/cnumr/best-practices-mobile
  * @tags android
  * @tags java

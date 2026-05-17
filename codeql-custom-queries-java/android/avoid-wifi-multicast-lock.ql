@@ -1,5 +1,5 @@
 /**
- * @name Unreleased Wifi Multicast Lock
+ * @name Avoid Wifi Multicast Lock
  * @description Acquiring a WifiManager.MulticastLock with `acquire()` allows the device to receive multicast packets,
  *              which can cause significant battery drain. The lock must be released with `release()` when no longer needed.
  *              Failing to do so can lead to uncontrolled energy consumption.

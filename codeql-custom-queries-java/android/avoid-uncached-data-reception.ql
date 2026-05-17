@@ -1,5 +1,5 @@
 /**
- * @name Uncached Data Reception
+ * @name Avoid Uncached Data Reception
  * @description Detects if an HTTP call (getInputStream or getResponseCode) is not directly associated with UncachedDataCache.install() in the same method.
  * @kind problem
  * @problem.severity warning

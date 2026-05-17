@@ -1,11 +1,11 @@
 /**
- * @name Prefer inexact alarms over exact alarms for battery efficiency
+ * @name Avoid Rigid Alarm
  * @description Applications are strongly discouraged from using exact alarms unnecessarily as they reduce the OS's ability to minimize battery use (i.e. Doze Mode). For most apps prior to API 19, setInexactRepeating() is preferable over setRepeating(). When you use this method, Android synchronizes multiple inexact repeating alarms and fires them at the same time, thus reducing the battery drain. Similarly, setExact() and setExactAndAllowWhileIdle() can significantly impact the power use of the device when idle, so they should be used with care. High-frequency alarms are also bad for battery life but this is already checked by Android lint (ShortAlarm built-in check).
  * @kind problem
  * @problem.severity warning
  * @precision high
  * @id java/android/avoid-exact-alarm
- * @link https://github.com/cnumr/best-practices-mobile
+ * @link https://green-code-initiative.org/rules#id:GCI509
  * @tags android
  * @tags java
  */

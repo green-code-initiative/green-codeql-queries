@@ -1,5 +1,5 @@
 /**
- * @name Detection of "Keep Screen On" flags
+ * @name Avoid Keep Screen On
  * @description Identifies usage of FLAG_KEEP_SCREEN_ON in code or android:keepScreenOn in XML layouts.
  * @kind problem
  * @problem.severity warning
