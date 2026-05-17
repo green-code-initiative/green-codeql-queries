@@ -1,5 +1,5 @@
 /**
- * @name WorkRequest without battery constraints
+ * @name Avoid WorkRequest without battery constraints
  * @description You can use the WorkManager library to perform work on an efficient schedule that considers whether specific conditions are met, such as power status. A worker can be scheduled to run, provided the device's battery isn't low for exemple. This can be checked by a call to WorkRequest.Builder#setConstraints() where the constraint object built involves Constraints.Builder#setRequiresBatteryNotLow(true) or, in its extremist form, Constraints.Builder#setRequiresCharging(true).
  * @kind problem
  * @problem.severity warning

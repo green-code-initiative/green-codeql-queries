@@ -1,5 +1,5 @@
 /**
- * @name Day Night Mode
+ * @name Avoid not using Day Night Mode
  * @description Dark theme is available in Android 10 (API level 29) and higher.
  *              Apps should support Dark theme by inheriting from a DayNight theme
  *              (parent="Theme.*.DayNight"). Failing to do so prevents the app from

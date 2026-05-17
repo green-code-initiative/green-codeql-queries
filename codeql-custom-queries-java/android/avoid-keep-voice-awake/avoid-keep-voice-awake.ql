@@ -5,7 +5,7 @@
  * @problem.severity warning
  * @precision high
  * @id java/android/avoid-keep-voice-awake
- * @link https://github.com/cnumr/best-practices-mobile
+ * @link https://green-code-initiative.org/rules#id:GCI511
  * @tags android
  * @tags java
  */

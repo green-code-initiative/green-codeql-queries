@@ -1,5 +1,5 @@
 /**
- * @name Avoid Android SDK location, prefer fused location provider
+ * @name Avoid Android SDK location
  * @description Using android.location directly bypasses the fused location provider which combines GPS, Wi-Fi, and cell signals to maximize battery life. Use com.google.android.gms.location instead.
  * @kind problem
  * @problem.severity warning

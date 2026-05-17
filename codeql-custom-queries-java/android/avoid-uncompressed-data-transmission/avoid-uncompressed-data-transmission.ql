@@ -1,5 +1,5 @@
 /**
- * @name Uncompressed Data Transmission
+ * @name Avoid Uncompressed Data Transmission
  * @description Transmitting a file over a network infrastructure without compressing it consumes more energy than with compression. Using GZIPOutputStream for HTTP requests reduces energy consumption by compressing data at least by 10% before transmission.
  * @kind problem
  * @problem.severity warning
