@@ -1,0 +1,2 @@
+| avoid-http-call-in-loop-or-stream.java:30:13:33:13 | getForObject(...) | HTTP call is performed inside a loop or stream operation. Prefer batching requests or moving the HTTP call outside the iteration to reduce network, CPU and energy consumption. |
+| avoid-http-call-in-loop-or-stream.java:50:13:54:13 | postForObject(...) | HTTP call is performed inside a loop or stream operation. Prefer batching requests or moving the HTTP call outside the iteration to reduce network, CPU and energy consumption. |
