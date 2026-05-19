@@ -13,7 +13,7 @@
 
 import java
 
-predicate isSpringRepositoryCall(MethodCall call) {
+predicate isRepositoryCall(MethodCall call) {
   call.getQualifier().getType().(RefType).getASupertype*().getName() = "Repository"
   or
   call.getQualifier().getType().(RefType).getName().matches("%Repository")
@@ -40,7 +40,7 @@ predicate isInsideStreamOperation(MethodCall call) {
 
 from MethodCall repoCall
 where
-  isSpringRepositoryCall(repoCall) and
+  isRepositoryCall(repoCall) and
   (isInsideLoop(repoCall) or isInsideStreamOperation(repoCall))
 select repoCall,
   "Spring repository method '" + repoCall.getMethod().getName() +
