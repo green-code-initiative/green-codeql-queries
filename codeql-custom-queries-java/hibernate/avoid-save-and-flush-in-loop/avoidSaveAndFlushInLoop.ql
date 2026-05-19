@@ -1,5 +1,5 @@
 /**
- * @name saveAndFlush inside loops
+ * @name Avoid saveAndFlush inside loops
  * @description Calling saveAndFlush inside loops forces a flush on every iteration.
  * @kind problem
  * @problem.severity warning
