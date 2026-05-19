@@ -5,4 +5,4 @@ version: 1.0.9
 extractor: csharp
 groups: csharp
 dependencies:
-  codeql/csharp-all: ^5.4.7
+  codeql/csharp-all: ^6.0.0
