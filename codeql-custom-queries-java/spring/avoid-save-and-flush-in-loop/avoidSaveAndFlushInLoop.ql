@@ -1,9 +1,9 @@
 /**
  * @name Avoid saveAndFlush inside loops
- * @description Calling saveAndFlush inside loops forces a flush on every iteration.
+ * @description In Spring data JPA, using saveAndFlush() inside a loop forces database synchronization on every iteration and disables batching. Consider using save() instead and flushing after the loop.
  * @kind problem
  * @problem.severity warning
- * @id java/hibernate/save-and-flush-in-loop
+ * @id java/dptinh/save-and-flush-in-loop
  * @tags performance
  */
 
@@ -26,6 +26,12 @@ class SaveAndFlushCall extends MethodCall {
 
 from Loop loop, SaveAndFlushCall call
 where
-  call.getEnclosingStmt().getParent*() = loop
+  call.getEnclosingStmt().getParent*() = loop and
+  (
+    call.getMethod().getDeclaringType().getASupertype*().hasQualifiedName(
+      "org.springframework.data.jpa.repository",
+      "JpaRepository"
+    )
+  )
 select call,
   "saveAndFlush() inside a loop forces database synchronization on every iteration and disables batching."

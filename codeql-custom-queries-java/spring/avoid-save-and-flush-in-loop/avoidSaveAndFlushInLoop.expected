@@ -1,0 +1,4 @@
+| avoidSaveAndFlushInLoop.java:13:13:13:43 | saveAndFlush(...) | saveAndFlush() inside a loop forces database synchronization on every iteration and disables batching. |
+| avoidSaveAndFlushInLoop.java:20:13:20:43 | saveAndFlush(...) | saveAndFlush() inside a loop forces database synchronization on every iteration and disables batching. |
+| avoidSaveAndFlushInLoop.java:29:13:29:43 | saveAndFlush(...) | saveAndFlush() inside a loop forces database synchronization on every iteration and disables batching. |
+| avoidSaveAndFlushInLoop.java:37:13:37:32 | saveAndFlush(...) | saveAndFlush() inside a loop forces database synchronization on every iteration and disables batching. |

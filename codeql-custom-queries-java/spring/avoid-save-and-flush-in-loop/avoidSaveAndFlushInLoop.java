@@ -1,4 +1,6 @@
-class Repo {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+class Repo implements JpaRepository {
     void saveAndFlush(Object o) {}
 }
 
@@ -36,6 +38,20 @@ class NoncompliantSaveAndFlushInLoop {
         }
     }
 
+}
+
+class NonSpringRepo {
+    void saveAndFlush(Object o) {}
+}
+
+class compliantSaveAndFlushOnNonSpringRepo {
+
+    void should_not_flag_saveAndFlush_on_non_spring_repo() {
+        NonSpringRepo repo = new NonSpringRepo();
+        for (int i = 0; i < 10; i++) {
+            repo.saveAndFlush(new Object()); // SHOULD NOT BE FLAGGED
+        }
+    }
 }
 
 class compliantSaveAndFlushOutsideLoop {
