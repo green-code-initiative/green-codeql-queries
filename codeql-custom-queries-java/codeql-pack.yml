@@ -1,7 +1,7 @@
 ---
 library: false
 name: green-code-initiative/java-queries
-version: 1.0.23
+version: 1.0.24
 extractor: java
 groups: java
 dependencies:
