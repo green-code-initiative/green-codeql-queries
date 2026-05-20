@@ -4,8 +4,8 @@
  * @kind problem
  * @problem.severity warning
  * @precision high
- * @id js/web-api/avoid-high-accuracy-gps
- * @tags web-api
+ * @id js/vanilla/avoid-high-accuracy-gps
+ * @tags vanilla
  * @tags javascript
  */
 
