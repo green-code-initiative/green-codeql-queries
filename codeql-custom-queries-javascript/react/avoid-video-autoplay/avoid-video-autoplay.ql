@@ -5,8 +5,8 @@
  * @problem.severity warning
  * @precision high
  * @link https://green-code-initiative.org/rules#id:GCI36
- * @id js/web-api/avoid-media-autoplay
- * @tags web-api
+ * @id js/react/avoid-media-autoplay
+ * @tags react
  * @tags server
  * @tags js
  */
