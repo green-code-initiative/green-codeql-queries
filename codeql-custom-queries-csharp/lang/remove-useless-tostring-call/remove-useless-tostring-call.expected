@@ -1,0 +1,1 @@
+| remove-useless-tostring-call.cs:6:23:6:37 | call to method ToString | Found parameterless ToString() on System.String |
