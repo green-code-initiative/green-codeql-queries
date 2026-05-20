@@ -1,2 +1,0 @@
-| avoid-unpaginated-repository-findall.java:17:28:17:55 | findAll(...) | repository.findAll() with no arguments loads all records from the database into memory. Use findAll(Pageable) to limit the result set and avoid memory exhaustion and unnecessary energy consumption. |
-| avoid-unpaginated-repository-findall.java:25:34:25:61 | findAll(...) | repository.findAll() with no arguments loads all records from the database into memory. Use findAll(Pageable) to limit the result set and avoid memory exhaustion and unnecessary energy consumption. |
