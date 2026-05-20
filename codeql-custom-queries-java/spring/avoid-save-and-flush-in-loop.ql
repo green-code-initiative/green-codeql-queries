@@ -3,7 +3,7 @@
  * @description In Spring data JPA, using saveAndFlush() inside a loop forces database synchronization on every iteration and disables batching. Consider using save() instead and flushing after the loop.
  * @kind problem
  * @problem.severity warning
- * @id java/dptinh/save-and-flush-in-loop
+ * @id java/spring/save-and-flush-in-loop
  * @tags performance
  */
 
