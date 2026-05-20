@@ -1,1 +1,1 @@
-| remove-useless-tostring-call.cs:5:27:5:47 | call to method ToString | A ToString() call on a string is unnecessary when its result is discarded. |
+| remove-useless-tostring-call.cs:6:23:6:37 | call to method ToString | Found parameterless ToString() on System.String |

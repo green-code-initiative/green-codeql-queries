@@ -9,19 +9,9 @@
 
 import csharp
 
-from Invocation call, Method method, Expr recv
+from MethodCall call
 where
-  // target method named ToString with no parameters
-  call.getMethod() = method and
-  method.getName() = "ToString" and
-  method.getNumberOfParameters() = 0 and
-
-  // declared on System.String (simple name check; adapt as needed for full qualification)
-  method.getDeclaringType().getName() = "String" and
-
-  // receiver exists and the invocation is used as an expression statement (i.e. result discarded)
-  call.getTarget() = method and
-  call.getReceiver() = recv and
-  call.getParent() instanceof ExpressionStatement
-
-select call, "A ToString() call on a string is unnecessary when its result is discarded."
+	call.getTarget().getName() = "ToString" and
+	call.getNumberOfArguments() = 0 and
+	call.getTarget().getDeclaringType().hasFullyQualifiedName("System", "String")
+select call, "Found parameterless ToString() on System.String"
