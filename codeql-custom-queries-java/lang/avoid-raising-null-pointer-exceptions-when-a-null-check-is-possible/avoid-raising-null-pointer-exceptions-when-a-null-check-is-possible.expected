@@ -1,0 +1,3 @@
+| avoid-raising-null-pointer-exceptions-when-a-null-check-is-possible.java:6:11:6:40 | catch (...) | This catch-clause handles NullPointerException. Consider using null checks instead of relying on exception handling to avoid performance overhead. |
+| avoid-raising-null-pointer-exceptions-when-a-null-check-is-possible.java:14:11:14:40 | catch (...) | This catch-clause handles NullPointerException. Consider using null checks instead of relying on exception handling to avoid performance overhead. |
+| avoid-raising-null-pointer-exceptions-when-a-null-check-is-possible.java:22:11:22:74 | catch (...) | This catch-clause handles NullPointerException. Consider using null checks instead of relying on exception handling to avoid performance overhead. |
