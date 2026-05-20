@@ -1,0 +1,3 @@
+| avoid-list-contains-in-loop.java:15:17:15:38 | contains(...) | List.contains() is called inside a loop, resulting in O(n^2) complexity. Convert the List to a HashSet before the loop for O(1) lookups and reduced CPU usage. |
+| avoid-list-contains-in-loop.java:25:17:25:37 | contains(...) | List.contains() is called inside a loop, resulting in O(n^2) complexity. Convert the List to a HashSet before the loop for O(1) lookups and reduced CPU usage. |
+| avoid-list-contains-in-loop.java:36:17:36:42 | contains(...) | List.contains() is called inside a loop, resulting in O(n^2) complexity. Convert the List to a HashSet before the loop for O(1) lookups and reduced CPU usage. |
