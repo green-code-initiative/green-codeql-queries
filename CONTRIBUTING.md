@@ -35,4 +35,5 @@ Your pull request will be reviewed, and if it is accepted and merged, the rest o
 # Useful Documentation :
 
 - [Official Github CodeQL Doc](https://codeql.github.com/docs/)
-- [CodeQl CheatSheet - CodeQL Agent Project](https://codeql-agent-project.github.io/codeql-cheatsheet/)
+- [CodeQL CheatSheet](https://codeql-agent-project.github.io/codeql-cheatsheet/)
+- [CodeQL Template](https://github.com/advanced-security/codeql-development-template)
