@@ -1,5 +1,5 @@
 /**
- * @name Avoid media resource leak by calling release() on MediaRecorder and MediaPlayer
+ * @name Avoid media resource leak
  * @description Failing to call release() on MediaRecorder or MediaPlayer objects leads to unnecessary memory usage, codec instances being held, and continuous battery consumption on mobile devices.
  * @kind problem
  * @problem.severity warning
