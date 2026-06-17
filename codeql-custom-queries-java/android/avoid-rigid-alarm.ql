@@ -4,7 +4,7 @@
  * @kind problem
  * @problem.severity warning
  * @precision high
- * @id java/android/avoid-exact-alarm
+ * @id java/android/avoid-rigid-alarm
  * @link https://green-code-initiative.org/rules#id:GCI509
  * @tags android
  * @tags java

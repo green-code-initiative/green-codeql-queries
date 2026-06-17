@@ -7,7 +7,7 @@
  * @kind problem
  * @problem.severity warning
  * @precision high
- * @id java/android/internet-in-loop
+ * @id java/android/avoid-internet-in-loop
  * @link https://green-code-initiative.org/rules#id:GCI502
  * @tags android
  * @tags java
