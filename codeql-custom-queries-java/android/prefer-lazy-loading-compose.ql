@@ -6,6 +6,7 @@
  * @precision medium
  * @id java/android/prefer-lazy-loading-compose
  * @tags android
+ * @tags kotlin
  */
 
 import java
