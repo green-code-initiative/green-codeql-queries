@@ -1,13 +1,13 @@
 /**
  * @name Missing cache directory cleanup
- * @description  	A good (but quite rare) practice in the long term is to delete the whole cache directory of the app onto the target device. This requires the source code of the app to contains at least one call to the method Context.cacheDir#deleteRecursively().
+ * @description A good (but quite rare) practice in the long term is to delete the whole cache directory of the app onto the target device. This requires the source code of the app to contains at least one call to the method Context.cacheDir#deleteRecursively().
  * @kind problem
  * @problem.severity warning
  * @precision high
  * @id java/android/missing-cache-directory-cleanup
  * @link https://github.com/cnumr/best-practices-mobile
  * @tags android
- * @tags java
+ * @tags kotlin
  */
 
 import java
