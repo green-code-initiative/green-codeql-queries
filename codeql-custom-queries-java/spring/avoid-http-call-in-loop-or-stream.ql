@@ -15,14 +15,15 @@ predicate isHttpClientCall(MethodCall call) {
   exists(string methodName |
     methodName = call.getMethod().getName() and
     (
-      methodName = "getForObject" or
-      methodName = "postForObject" or
-      methodName = "exchange" or
-      methodName = "getForEntity" or
-      methodName = "postForEntity" or
-      methodName = "retrieve" or
-      methodName = "exchangeToMono" or
-      methodName = "exchangeToFlux"
+      (
+        methodName in ["getForObject", "postForObject", "exchange", "getForEntity", "postForEntity"] and
+        call.getMethod().getDeclaringType*().hasQualifiedName("org.springframework.web.client", "RestTemplate")
+      )
+      or
+      (
+        methodName in ["retrieve", "exchangeToMono", "exchangeToFlux"] and
+        call.getMethod().getDeclaringType*().hasQualifiedName("org.springframework.web.reactive.function.client", "WebClient")
+      )
     )
   )
 }

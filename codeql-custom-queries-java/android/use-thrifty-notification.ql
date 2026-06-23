@@ -17,6 +17,7 @@ import java
 
 from MethodCall mc
 where
-  mc.getMethod().getName() in ["setVibrate", "setSound"]
+  mc.getMethod().getName() in ["setVibrate", "setSound"] and
+  mc.getMethod().getDeclaringType*().hasQualifiedName("androidx.core.app", "NotificationCompat$Builder")
 select mc,
   "Avoid calling '" + mc.getMethod().getName() + "' on NotificationCompat.Builder. Default notification settings are enough. For API 31+, consider using NotificationChannel#setVibrationPattern() instead."

@@ -16,6 +16,7 @@ import java
 from MethodCall mc
 where
   mc.getMethod().getName() = "setTorchMode" and
+  mc.getMethod().getDeclaringType*().hasName("CameraManager") and
   mc.getArgument(1).(BooleanLiteral).getBooleanValue() = true
 select mc,
   "Avoid enabling torch mode programmatically. The torch drains the battery unnecessarily."

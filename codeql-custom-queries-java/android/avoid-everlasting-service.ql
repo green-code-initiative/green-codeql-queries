@@ -16,6 +16,7 @@ import java
 from MethodCall startCall
 where
   startCall.getMethod().getName() = "startService" and
+  startCall.getMethod().getDeclaringType*().hasName("Context") and
   not exists(MethodCall stopCall |
     stopCall.getEnclosingCallable() = startCall.getEnclosingCallable() and
     (

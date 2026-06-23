@@ -22,6 +22,7 @@ where
   (
     // Cas 1 : setPowerRequirement appelé avec POWER_HIGH ou POWER_MEDIUM
     mc.getMethod().getName() = "setPowerRequirement" and
+    mc.getMethod().getDeclaringType*().hasName("Criteria") and
     exists(FieldRead fr |
       fr = mc.getArgument(0) and
       (
@@ -34,12 +35,14 @@ where
   (
     // Cas 2 : requestLocationUpdates appelé avec minTime = 0
     mc.getMethod().getName() = "requestLocationUpdates" and
+    mc.getMethod().getDeclaringType*().hasName("LocationManager") and
     mc.getArgument(0).(LongLiteral).getValue() = "0"
   )
   or
   (
     // Cas 3 : requestLocationUpdates appelé avec minDistance = 0
     mc.getMethod().getName() = "requestLocationUpdates" and
+    mc.getMethod().getDeclaringType*().hasName("LocationManager") and
     mc.getArgument(1).(FloatLiteral).getValue() = "0.0"
   )
 select mc,

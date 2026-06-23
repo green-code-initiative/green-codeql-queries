@@ -18,6 +18,7 @@ import java
 from MethodCall openCall, LoopStmt loop
 where
   openCall.getMethod().getName() = "openConnection" and
+  openCall.getMethod().getDeclaringType*().hasQualifiedName("java.net", "URL") and
   loop.getBody().getAChild*() = openCall.getEnclosingStmt()
 select openCall,
   "URL#openConnection() is called inside a loop. Opening HTTP connections in a loop is battery-inefficient. Consider using push notifications instead of polling."

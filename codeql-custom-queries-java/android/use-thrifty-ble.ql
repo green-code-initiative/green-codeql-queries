@@ -22,6 +22,7 @@ where
   (
     // Cas 1 : requestConnectionPriority appelé sans CONNECTION_PRIORITY_LOW_POWER
     mc.getMethod().getName() = "requestConnectionPriority" and
+    mc.getMethod().getDeclaringType*().hasName("BluetoothGatt") and
     exists(FieldRead fr |
       fr = mc.getArgument(0) and
       (
@@ -34,6 +35,7 @@ where
   (
     // Cas 2 : setAdvertiseMode appelé sans ADVERTISE_MODE_LOW_POWER
     mc.getMethod().getName() = "setAdvertiseMode" and
+    mc.getMethod().getDeclaringType*().hasName("AdvertiseSettings$Builder") and
     exists(FieldRead fr |
       fr = mc.getArgument(0) and
       (
@@ -46,6 +48,7 @@ where
   (
     // Cas 3 : startScan appelé avec ScanSettings dont le mode n'est pas SCAN_MODE_LOW_POWER
     mc.getMethod().getName() = "setScanMode" and
+    mc.getMethod().getDeclaringType*().hasName("ScanSettings$Builder") and
     exists(FieldRead fr |
       fr = mc.getArgument(0) and
       (

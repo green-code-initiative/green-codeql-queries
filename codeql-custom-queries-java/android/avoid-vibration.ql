@@ -18,6 +18,7 @@ import java
 from MethodCall mc
 where
   mc.getMethod().getName() = "getSystemService" and
+  mc.getMethod().getDeclaringType*().hasName("Context") and
   exists(FieldRead fr |
     fr = mc.getArgument(0) and
     (

@@ -17,6 +17,7 @@ where
     httpCall.getMethod().hasName("getInputStream") or
     httpCall.getMethod().hasName("getResponseCode")
   ) and
+  httpCall.getMethod().getDeclaringType*().hasName("HttpURLConnection") and
   not exists(MethodCall installCall |
     installCall.getMethod().hasName("install") and
     (

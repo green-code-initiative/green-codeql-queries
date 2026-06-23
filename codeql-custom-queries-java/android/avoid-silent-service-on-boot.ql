@@ -21,8 +21,11 @@ class BroadcastReceiverSubclass extends Class {
 
 class StartServiceCall extends MethodCall {
   StartServiceCall() {
-    this.getMethod().hasName("startService") or
-    this.getMethod().hasName("startForegroundService")
+    (
+      this.getMethod().hasName("startService") or
+      this.getMethod().hasName("startForegroundService")
+    ) and
+    this.getMethod().getDeclaringType*().hasName("Context")
   }
 }
 

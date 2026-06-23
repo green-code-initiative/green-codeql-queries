@@ -28,7 +28,8 @@ class AndroidComponent extends Class {
 
 class GetCacheDirCall extends MethodCall {
   GetCacheDirCall() {
-    this.getMethod().hasName("getCacheDir")
+    this.getMethod().hasName("getCacheDir") and
+    this.getMethod().getDeclaringType*().hasName("Context")
   }
 }
 

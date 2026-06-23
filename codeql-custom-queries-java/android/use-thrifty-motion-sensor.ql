@@ -18,6 +18,7 @@ import java
 from MethodCall mc
 where
   mc.getMethod().getName() = "getDefaultSensor" and
+  mc.getMethod().getDeclaringType*().hasName("SensorManager") and
   exists(FieldRead fr |
     fr = mc.getArgument(0) and
     (

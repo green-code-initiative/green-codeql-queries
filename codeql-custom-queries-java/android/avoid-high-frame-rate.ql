@@ -18,6 +18,7 @@ from Expr e, FloatLiteral rate, string msg
 where
   (
     e.(MethodCall).getMethod().getName() = "setFrameRate" and
+    e.(MethodCall).getMethod().getDeclaringType*().hasName("Surface") and
     rate = e.(MethodCall).getArgument(0) and
     rate.getFloatValue() > 60.0 and
     msg = "Avoid setting frame rate above 60Hz (current value: " + rate.getValue() +
