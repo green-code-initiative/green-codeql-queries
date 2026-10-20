@@ -1,10 +1,10 @@
 /**
- * @name Avoid Sensor Leak
+ * @name Avoid SensorManager listener leak
  * @description Calling SensorManager.registerListener() without a matching unregisterListener() causes the sensor to keep processing data during idle states, draining battery within hours.
  * @kind problem
  * @problem.severity warning
  * @precision medium
- * @id java/android/avoid-sensor-leak
+ * @id java/android/avoid-sensor-manager-leak
  * @link https://green-code-initiative.org/rules#id:GCI514
  * @tags android
  */
