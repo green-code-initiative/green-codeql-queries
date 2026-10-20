@@ -19,7 +19,10 @@ jobs:
     permissions:
       contents: write
       actions: write
+      pull-requests: write
 
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -89,6 +92,7 @@ jobs:
           echo "$CURRENT_TEST_SHA" > .last_sync
 
           # 5. Commit et Push
+          git checkout -B sync/queries-from-test
           git add .
           if git diff --staged --quiet; then
             echo "Rien à synchroniser."
@@ -96,5 +100,10 @@ jobs:
             echo "chore: sync and flatten queries" > commit_msg.txt
             [ -n "$AUTHORS" ] && echo -e "\n$AUTHORS" >> commit_msg.txt
             git commit -F commit_msg.txt
-            git push origin main
+            git push --force origin sync/queries-from-test
+            if [ -z "$(gh pr list --head sync/queries-from-test --base main --state open --json number --jq '.[0].number')" ]; then
+              gh pr create --base main --head sync/queries-from-test \
+                --title "chore: sync and flatten queries" \
+                --body "Automated sync of queries from the test branch."
+            fi
           fi
