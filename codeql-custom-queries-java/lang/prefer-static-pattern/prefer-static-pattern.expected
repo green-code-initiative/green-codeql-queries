@@ -1,0 +1,3 @@
+| prefer-static-pattern.java:12:21:12:43 | compile(...) | Pattern.compile() is called outside a static context and will recompile the regex on every invocation. Declare the Pattern as a 'static final' field to compile it only once. |
+| prefer-static-pattern.java:19:21:19:43 | compile(...) | Pattern.compile() is called outside a static context and will recompile the regex on every invocation. Declare the Pattern as a 'static final' field to compile it only once. |
+| prefer-static-pattern.java:27:18:27:39 | compile(...) | Pattern.compile() is called outside a static context and will recompile the regex on every invocation. Declare the Pattern as a 'static final' field to compile it only once. |

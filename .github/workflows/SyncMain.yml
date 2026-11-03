@@ -1,7 +1,6 @@
 name: "Sync Queries to Main"
 
 on:
-  workflow_dispatch:
   workflow_run:
     workflows: ["Run CodeQL Unit Tests"]
     types:
@@ -10,91 +9,80 @@ on:
       - 'test'
 
 jobs:
-  sync:
-    if: |
-      github.event_name == 'workflow_dispatch' || 
-      github.event_name == 'schedule' ||
-      (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success')
+  sync-on-success:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     permissions:
       contents: write
       actions: write
 
     steps:
-      - name: Checkout Repository
+      - name: Checkout Source Branch (test)
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0 
+          ref: test
+          fetch-depth: 0 # Nécessaire pour récupérer l'historique des auteurs
 
       - name: Configure Git
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
 
-      - name: Sync, Extract and Push
+      - name: Sync, Extract and Push with Co-authors
         run: |
-          # 1. Identifier le point de départ
-          git fetch origin main test
-          git checkout main
-          
-          if [ -f ".last_sync" ]; then
-            LAST_SHA=$(cat .last_sync)
-          else
-            LAST_SHA=$(git rev-list --max-parents=0 HEAD | tail -n 1)
+          # 1. Identifier TOUS les fichiers .ql sur la branche test
+          # On ne se base plus seulement sur le diff, mais sur l'état actuel de 'test'
+          # pour refléter exactement ce qui doit exister sur 'main'
+          FILES=$(find codeql-custom-queries-* -name "*.ql" || true)
+
+          if [ -z "$FILES" ]; then
+            echo "Aucun fichier .ql trouvé sur la branche test."
+            # Optionnel : si on veut vider main si test est vide, on ne quitte pas ici.
           fi
 
-          # 2. Préparation de la structure
-          git checkout test
+          # 2. Préparation de la structure propre dans /tmp
           mkdir -p /tmp/sync_root
-          CURRENT_TEST_SHA=$(git rev-parse HEAD)
 
-          FILES=$(find codeql-custom-queries-* -name "*.ql" || true)
           for file in $FILES; do
             if [ -f "$file" ]; then
               PACK_NAME=$(echo "$file" | cut -d/ -f1)
               LANG=$(echo "$PACK_NAME" | sed 's/codeql-custom-queries-//')
+              CATEGORY=$(echo "$file" | cut -d/ -f2)
               FILENAME=$(basename "$file")
-              
-              if [ "$LANG" = "actions" ]; then
-                # Cas particulier Actions : direct dans le dossier du pack
-                FINAL_PATH="codeql-custom-queries-$LANG/$FILENAME"
-              else
-                # Cas général : langage/categorie/nom.ql
-                CATEGORY=$(echo "$file" | cut -d/ -f2)
-                FINAL_PATH="codeql-custom-queries-$LANG/$CATEGORY/$FILENAME"
-              fi
+
+              FINAL_PATH="codeql-custom-queries-$LANG/$CATEGORY/$FILENAME"
               
               mkdir -p "/tmp/sync_root/$(dirname "$FINAL_PATH")"
               cp "$file" "/tmp/sync_root/$FINAL_PATH"
             fi
           done
 
-          # 3. Récupération des auteurs
-          AUTHORS=$(git log ${LAST_SHA}..HEAD --format='%an|%ae' | \
-                    sort -u | \
-                    awk -F'|' '{printf "Co-authored-by: %s <%s>\n", $1, $2}' | \
-                    grep -v "github-actions" || true)
+          # 3. Récupération des auteurs uniques (filtrés par nom pour éviter les doublons d'emails)
+          AUTHORS=$(git log origin/main..${{ github.event.workflow_run.head_sha }} --format='%an|%ae' | \
+                    sort -t'|' -k1,1 -u | \
+                    awk -F'|' '{printf "Co-authored-by: %s <%s>\n", $1, $2}')
 
-          # 4. Application sur Main
+          # 4. Basculement sur main
           git checkout main
           git pull origin main
 
-          # Nettoyage sélectif des fichiers .ql (on garde les .yml et .lock)
+          # 5. GESTION DE LA SUPPRESSION : 
+          # On supprime tous les .ql existants dans les dossiers de destination sur main
+          # avant de remettre les versions à jour de /tmp.
+          # Cela garantit que si un fichier n'est plus dans /tmp, il disparaît de main.
           find codeql-custom-queries-* -name "*.ql" -delete || true
-          
-          if [ -d "/tmp/sync_root" ] && [ "$(ls -A /tmp/sync_root)" ]; then
-            cp -rv /tmp/sync_root/* .
-          fi
 
-          echo "$CURRENT_TEST_SHA" > .last_sync
+          # 6. Injection des fichiers (re-création des fichiers présents sur test)
+          cp -rv /tmp/sync_root/* .
 
-          # 5. Commit et Push
+          # 7. Commit avec gestion des Co-authors
           git add .
           if git diff --staged --quiet; then
-            echo "Rien à synchroniser."
+            echo "Aucun changement (les fichiers sont déjà synchronisés)."
           else
-            echo "chore: sync and flatten queries" > commit_msg.txt
-            [ -n "$AUTHORS" ] && echo -e "\n$AUTHORS" >> commit_msg.txt
+            COMMIT_SUBJECT="chore: sync and flatten validated queries (including deletes) [skip ci]"
+            printf "$COMMIT_SUBJECT\n\n$AUTHORS" > commit_msg.txt
+            
             git commit -F commit_msg.txt
             git push origin main
           fi

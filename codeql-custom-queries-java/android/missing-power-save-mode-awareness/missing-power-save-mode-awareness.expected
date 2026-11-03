@@ -1,0 +1,1 @@
+| MissingPowerSaveModeAwareness.java:30:7:30:17 | BadActivity | Component BadActivity does not react to power save mode. Consider calling PowerManager.isPowerSaveMode() or registering a receiver for ACTION_POWER_SAVE_MODE_CHANGED to adapt behavior when the device is in power save mode. |

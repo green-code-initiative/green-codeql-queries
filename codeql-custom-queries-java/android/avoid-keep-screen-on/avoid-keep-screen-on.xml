@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 🚫 Noncompliant - keepScreenOn set to true -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:keepScreenOn="true">
+
+    <!-- 🚫 Noncompliant - nested view with keepScreenOn -->
+    <TextView
+        android:keepScreenOn="true"
+        android:text="Hello" />
+
+    <!-- ✅ Compliant - keepScreenOn not set -->
+    <TextView
+        android:text="World" />
+
+</LinearLayout>

@@ -1,10 +1,6 @@
 # 🍃 Green CodeQL
 A first-of-its-kind repository of custom queries to scan your codebase and detect environmental sustainability problems, notably energy-related issues.
 
-[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
-![Status: Experimental](https://img.shields.io/badge/status-experimental-orange)
-![Objective: energy + CO₂](https://img.shields.io/badge/objective-energy%20%2B%20CO%E2%82%82-2ea44f)
-
 ## 🚀 How to use green queries on your GitHub
 
 To run these custom green queries directly on your repository, copy this code into a GitHub Action (Java code analysis in the example below):
@@ -37,7 +33,7 @@ jobs:
         category: "Sustainability"
 ```
 > [!NOTE]
-> For lack of a better option, sustainability alerts are reported in 🛡️ Security and quality → Code scanning
+> For lack of a better option, sustainability alerts are reported just as vulnerabilities in 🛡️ Security → Code scanning
 
 
 ## 📦 Status of green queries packs

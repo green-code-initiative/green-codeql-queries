@@ -1,0 +1,7 @@
+| avoid_inference_without_no_grad.py:69:12:69:36 | model() | Wrap PyTorch inference in 'torch.no_grad()' to disable gradient tracking and reduce memory usage and energy consumption. |
+| avoid_inference_without_no_grad.py:76:19:76:31 | model() | Wrap PyTorch inference in 'torch.no_grad()' to disable gradient tracking and reduce memory usage and energy consumption. |
+| avoid_inference_without_no_grad.py:84:16:84:43 | encoder() | Wrap PyTorch inference in 'torch.no_grad()' to disable gradient tracking and reduce memory usage and energy consumption. |
+| avoid_inference_without_no_grad.py:85:12:85:26 | model() | Wrap PyTorch inference in 'torch.no_grad()' to disable gradient tracking and reduce memory usage and energy consumption. |
+| avoid_inference_without_no_grad.py:93:19:93:31 | model() | Wrap PyTorch inference in 'torch.no_grad()' to disable gradient tracking and reduce memory usage and energy consumption. |
+| avoid_inference_without_no_grad.py:102:12:102:51 | classifier() | Wrap PyTorch inference in 'torch.no_grad()' to disable gradient tracking and reduce memory usage and energy consumption. |
+| avoid_inference_without_no_grad.py:110:18:110:35 | model() | Wrap PyTorch inference in 'torch.no_grad()' to disable gradient tracking and reduce memory usage and energy consumption. |

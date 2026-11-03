@@ -1,0 +1,4 @@
+| avoid-sensor-manager-leak.java:20:9:20:56 | registerListener(...) | Call unregisterListener() to match this registerListener() on 'SensorManager' to avoid unnecessary battery drain. |
+| avoid-sensor-manager-leak.java:26:9:26:56 | registerListener(...) | Call unregisterListener() to match this registerListener() on 'SensorManager' to avoid unnecessary battery drain. |
+| avoid-sensor-manager-leak.java:32:9:32:56 | registerListener(...) | Call unregisterListener() to match this registerListener() on 'SensorManager' to avoid unnecessary battery drain. |
+| avoid-sensor-manager-leak.java:33:9:33:56 | registerListener(...) | Call unregisterListener() to match this registerListener() on 'SensorManager' to avoid unnecessary battery drain. |

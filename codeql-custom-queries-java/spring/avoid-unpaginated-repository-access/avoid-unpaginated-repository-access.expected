@@ -1,0 +1,1 @@
+| avoid-unpaginated-repository-access.java:32:16:32:35 | findAll(...) | Spring repository findAll() is called from an endpoint without pagination. Prefer Pageable and paginated queries to reduce resource consumption. |

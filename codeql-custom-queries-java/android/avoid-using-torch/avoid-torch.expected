@@ -1,0 +1,5 @@
+| avoid-torch.java:12:9:12:39 | setTorchMode(...) | Avoid enabling torch mode programmatically. The torch drains the battery unnecessarily. |
+| avoid-torch.java:24:13:24:43 | setTorchMode(...) | Avoid enabling torch mode programmatically. The torch drains the battery unnecessarily. |
+| avoid-torch.java:37:13:37:43 | setTorchMode(...) | Avoid enabling torch mode programmatically. The torch drains the battery unnecessarily. |
+| avoid-torch.java:49:9:49:39 | setTorchMode(...) | Avoid enabling torch mode programmatically. The torch drains the battery unnecessarily. |
+| avoid-torch.java:54:9:54:39 | setTorchMode(...) | Avoid enabling torch mode programmatically. The torch drains the battery unnecessarily. |

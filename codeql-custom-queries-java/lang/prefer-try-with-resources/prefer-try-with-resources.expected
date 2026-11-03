@@ -1,0 +1,2 @@
+| prefer-try-with-resources.java:14:22:14:45 | new Resource(...) | Resource implements AutoCloseable and should be opened in a try-with-resources statement to guarantee it is always closed. |
+| prefer-try-with-resources.java:22:26:22:49 | new Resource(...) | Resource implements AutoCloseable and should be opened in a try-with-resources statement to guarantee it is always closed. |

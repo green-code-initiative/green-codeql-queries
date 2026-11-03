@@ -1,0 +1,9 @@
+| avoid-extraneous-init.java:36:9:36:35 | init(...) | Avoid initialising 'init()' in Application#onCreate(). Prefer on-demand initialisation to reduce start-up latency and save energy. |
+| avoid-extraneous-init.java:37:9:37:32 | init(...) | Avoid initialising 'init()' in Application#onCreate(). Prefer on-demand initialisation to reduce start-up latency and save energy. |
+| avoid-extraneous-init.java:38:9:38:30 | init(...) | Avoid initialising 'init()' in Application#onCreate(). Prefer on-demand initialisation to reduce start-up latency and save energy. |
+| avoid-extraneous-init.java:39:9:39:33 | init(...) | Avoid initialising 'init()' in Application#onCreate(). Prefer on-demand initialisation to reduce start-up latency and save energy. |
+| avoid-extraneous-init.java:40:9:40:42 | init(...) | Avoid initialising 'init()' in Application#onCreate(). Prefer on-demand initialisation to reduce start-up latency and save energy. |
+| avoid-extraneous-init.java:50:9:50:35 | init(...) | Avoid initialising 'init()' in Application#onCreate(). Prefer on-demand initialisation to reduce start-up latency and save energy. |
+| avoid-extraneous-init.java:62:13:62:36 | init(...) | Avoid initialising 'init()' in Application#onCreate(). Prefer on-demand initialisation to reduce start-up latency and save energy. |
+| avoid-extraneous-init.java:73:9:73:30 | init(...) | Avoid initialising 'init()' in Application#onCreate(). Prefer on-demand initialisation to reduce start-up latency and save energy. |
+| avoid-extraneous-init.java:74:9:74:33 | init(...) | Avoid initialising 'init()' in Application#onCreate(). Prefer on-demand initialisation to reduce start-up latency and save energy. |

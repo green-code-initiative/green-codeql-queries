@@ -1,0 +1,8 @@
+| avoid-keep-cpu-on.java:46:36:46:97 | newWakeLock(...) | PowerManager.newWakeLock() acquires a wake lock, keeping the CPU on. This should be avoided unless absolutely necessary. |
+| avoid-keep-cpu-on.java:55:36:55:103 | newWakeLock(...) | PowerManager.newWakeLock() acquires a wake lock, keeping the CPU on. This should be avoided unless absolutely necessary. |
+| avoid-keep-cpu-on.java:64:36:64:86 | newWakeLock(...) | PowerManager.newWakeLock() acquires a wake lock, keeping the CPU on. This should be avoided unless absolutely necessary. |
+| avoid-keep-cpu-on.java:73:36:73:64 | newWakeLock(...) | PowerManager.newWakeLock() acquires a wake lock, keeping the CPU on. This should be avoided unless absolutely necessary. |
+| avoid-keep-cpu-on.java:105:36:105:91 | newWakeLock(...) | PowerManager.newWakeLock() acquires a wake lock, keeping the CPU on. This should be avoided unless absolutely necessary. |
+| avoid-keep-cpu-on.java:114:36:114:88 | newWakeLock(...) | PowerManager.newWakeLock() acquires a wake lock, keeping the CPU on. This should be avoided unless absolutely necessary. |
+| avoid-keep-cpu-on.java:124:36:124:102 | newWakeLock(...) | PowerManager.newWakeLock() acquires a wake lock, keeping the CPU on. This should be avoided unless absolutely necessary. |
+| avoid-keep-cpu-on.java:133:36:133:63 | newWakeLock(...) | PowerManager.newWakeLock() acquires a wake lock, keeping the CPU on. This should be avoided unless absolutely necessary. |
