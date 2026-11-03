@@ -10,9 +10,9 @@ interface Pageable {}
 
 interface Page<T> {}
 
-interface Repository<T, ID> {}
+interface Repository<T, ID> { java.util.List<T> findAll(); }
 
-interface JpaRepository<T, ID> extends Repository<T, ID> {
+interface JpaRepository<T, ID> extends org.springframework.data.repository.Repository<T, ID> {
     java.util.List<T> findAll();
     Page<T> findAll(Pageable pageable);
 }
@@ -36,5 +36,19 @@ class UserController {
     @GetMapping("/users-paged")
     public Page<User> getUsersPaged(Pageable pageable) {
         return repository.findAll(pageable);
+    }
+}
+
+interface CustomUserRepository extends Repository<User, Long> {}
+
+@RestController
+class CustomRepositoryController {
+
+    private final CustomUserRepository repository = null;
+
+    // GOOD: Repository is not a Spring Data type
+    @GetMapping("/custom-users")
+    public java.util.List<User> getCustomUsers() {
+        return repository.findAll();
     }
 }

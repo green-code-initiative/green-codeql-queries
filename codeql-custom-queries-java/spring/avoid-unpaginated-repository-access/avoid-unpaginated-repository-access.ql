@@ -35,10 +35,9 @@ predicate hasPageableParameter(Method m) {
 
 predicate isRepositoryFindAllCall(MethodCall call) {
   call.getMethod().getName() = "findAll" and
-  (
-    call.getQualifier().getType().(RefType).getName().matches("%Repository")
-    or
-    call.getQualifier().getType().(RefType).getASupertype*().getName() = "Repository"
+  exists(RefType t |
+    t = call.getQualifier().getType().(RefType).getASupertype*().getSourceDeclaration() and
+    t.hasQualifiedName("org.springframework.data.repository", "Repository")
   )
 }
 
